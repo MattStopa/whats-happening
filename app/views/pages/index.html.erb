@@ -1,0 +1,38 @@
+<!DOCTYPE html>  
+<html lang="en">
+
+<head>  
+    <title>Tabs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>  
+    <div class="main-container">
+
+    </div>
+    <script type="text/javascript">
+        var tabs = [{
+                id: 1,
+                title: "tab 1",
+                content: "some content 1"
+            },
+            {
+                id: 2,
+                title: "tab 2",
+                content: "some content 2"
+            },
+            {
+                id: 3,
+                title: "tab 3",
+                content: "some content 3"
+            }
+        ];
+    </script>
+    <hello></hello>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.3.0/riot+compiler.min.js"></script>
+    <script type="riot/tag" src="riot/hello.tag"></script>
+    <script>riot.mount('hello'); // or riot.mount('*'); to load all tags.</script>
+</body>
+
+</html>  
