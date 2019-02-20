@@ -22,9 +22,9 @@ gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'jbuilder', '~> 2.5'
 
-gem 'mongoid'
 gem 'riotjs-rails'
-
+gem 'mysql2'
+require 'active_record'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

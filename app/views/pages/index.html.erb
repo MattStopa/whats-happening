@@ -8,10 +8,27 @@
 </head>
 
 <body>  
+    <style>
+    #map {
+        width: 700px;
+        height: 700px;
+    }
+    </style>
+
     <div class="main-container">
 
     </div>
+
+    <div style="display: flex">
+      <div id="map"></div>
+      <div> 
+        <event-form><event-form> 
+      </div>
+      <hello></hello> 
+    <div>
+
     <script type="text/javascript">
+        this.events = null;
         var tabs = [{
                 id: 1,
                 title: "tab 1",
@@ -28,11 +45,32 @@
                 content: "some content 3"
             }
         ];
+
+      var map;
+      function initMap() {
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+
+        var marker = new google.maps.Marker({
+          position: {lat: -34.397, lng: 150.644},
+          map: map,
+          title: 'Hello World!'
+        });
+      }
+
     </script>
-    <hello></hello>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.3.0/riot+compiler.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.js"></script>
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXP1atfjrMXBUbrxLgmxKgd_dfJ0mkD9o&callback=initMap"
+    async defer></script>
     <script type="riot/tag" src="riot/hello.tag"></script>
+    <script type="riot/tag" src="riot/event-form.tag"></script>
     <script>riot.mount('hello'); // or riot.mount('*'); to load all tags.</script>
+    <script>riot.mount('event-form'); // or riot.mount('*'); to load all tags.</script>
 </body>
 
 </html>  
