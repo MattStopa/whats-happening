@@ -14,8 +14,3 @@
 //= require riot
 //= require_tree .
 
-
-document.addEventListener("DOMContentLoaded", function(event) { 
-    riot.mount('test');
-  });
-

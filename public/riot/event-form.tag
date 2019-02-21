@@ -1,4 +1,3 @@
-
 <event-form>
   <style>
     .title {
@@ -44,13 +43,12 @@
   </style>
   
   <div class="box shadow1">
-    <h2 class="header">Event Details</h2>
+    <h2 class="header">Event Details <i class="fas fa-times right pointer"></i></h2>
     <form onsubmit={submitMe} class="form-holder ">
-
-
         <div>
           <div class="label">Title</div>
-          <input type="text" name="title" onblur={ doneEdit } >
+          <input type="text" name="title" onblur={ doneEdit } value={event.name}>
+          {event.name}
         </div>
         <div>
           <div class="label">Description</div>
@@ -65,16 +63,21 @@
           <input type="text" name="coord_y" onblur={ doneEdit }  >
         </div>
         <button class="button" type="submit">Create</button>
-
     </form>
-
-  
   </div>
  
   <script>
     this.events = null;
-    var self = this;
+    let self = this;
 
+    this.event = {};
+
+    xObserve.listen('editSelected', function(event) { 
+      self.event = event;
+      console.log(self.event)
+      console.log(self)
+      self.update()
+    })
 
     doneEdit(e) {
       this.opts[e.target.name] = e.target.value;

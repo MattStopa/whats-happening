@@ -8,10 +8,16 @@
       padding: 20px;
       margin-bottom: 20px;
     }
+
+
+    .fa-edit {
+      color: #ff9922;
+      cursor: pointer;
+    }
   </style>
   
   <div each="{event in events}" class="box shadow1">
-    <div class='title header'>{event.title}</div>
+    <div class='title header'>{event.title} <i class="far fa-edit right" onclick={edit}></i></div>
     <div class="box-contents">
       <div>{event.description}</div>
     </div>
@@ -19,21 +25,16 @@
 
   <script>
     this.events = null;
+    let self = this;
 
-    function getData(self) { 
-        fetch('/events.json')
-            .then(function(response) {
-                return response.json()
-            }).then(function(json) {
-                self.events = json
-                self.update()
-
-            }).catch(function(ex) {
-                console.log('parsing failed', ex)
-            })
+    edit(e) {
+      xObserve.trigger('editSelected', e.item.event)
     }
 
-    getData(this)
+    new EventService().index(function(json) { 
+      self.events = json
+      self.update()
+    }) 
     
   </script>
 </event-list>
