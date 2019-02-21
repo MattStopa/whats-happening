@@ -1,24 +1,16 @@
-<hello>
+<event-list>
   <style>
     .title {
         font-weight: 800;
     }
   </style>
-
-  <p>Hello { name }!</p>
-
   
   <div each="{event in events}">
     <div class='title'>{event.title}</div>
     <div>{event.description}</div>
   </div>
 
-    <div>
-
-    </div>
-
   <script>
-    this.name = "Jon"; 
     this.events = null;
 
     function getData(self) { 
@@ -37,4 +29,4 @@
     getData(this)
     
   </script>
-</hello>
+</event-list>

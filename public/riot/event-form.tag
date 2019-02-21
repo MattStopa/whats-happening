@@ -22,14 +22,12 @@
 
         <button type="submit">Create</button>
 
-        {this.opts.title}
     </form>
-    {opts.description}
+
   
   </div>
  
   <script>
-    this.name = "Jon"; 
     this.events = null;
     var self = this;
 
