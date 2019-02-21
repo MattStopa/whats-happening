@@ -17,6 +17,59 @@
     .flex {
         display: flex
     }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        color: #777777
+    }
+
+    .button { 
+        font-size: 12px;
+        line-height: 16px;
+        height: 26px;
+        transition: background-color .2s ease,border-color .2s ease,-webkit-filter .2s ease;
+        transition: filter .2s ease,background-color .2s ease,border-color .2s ease;
+        transition: filter .2s ease,background-color .2s ease,border-color .2s ease,-webkit-filter .2s ease;
+        -webkit-font-smoothing: antialiased!important;
+        -moz-osx-font-smoothing: grayscale;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        text-align: center;
+        font-weight: 600;
+        padding: 4px 15px;
+        white-space: nowrap;
+        cursor: pointer;
+        text-decoration: none;
+        box-sizing: border-box;
+        background-clip: border-box!important;
+        background-origin: border-box!important;
+        background-color: #fff;
+        border-radius: 4px;
+        color: #de0a0a;
+        border: 1px solid #de7575;
+    }
+
+    .shadow1 {
+        box-shadow: 0 0 0 1px rgba(89,105,129,.1), 0 1px 3px 0 rgba(89,105,129,.1), 0 1px 2px 0 rgba(0,0,0,.05);
+        border-radius: 5px
+    }
+
+    .box { 
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+
+    .header {
+        background: #fcfcfd;
+        padding: 20px;
+        border-bottom: 1px solid #eaecef;
+        margin-top: 0px;
+    }
+
     </style>
 
     <div class="main-container">
@@ -24,11 +77,11 @@
     </div>
 
     <div class="flex">
-      <div id="map"></div>
+        <div id="map"></div>
+        <event-list></event-list> 
         <div> 
             <event-form><event-form> 
         </div>
-      <event-list></event-list> 
     <div>
 
     <script type="text/javascript">
@@ -50,6 +103,7 @@
       }
     </script>
 
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.3.0/riot+compiler.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.js"></script>
      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXP1atfjrMXBUbrxLgmxKgd_dfJ0mkD9o&callback=initMap"

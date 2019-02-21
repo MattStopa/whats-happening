@@ -1,13 +1,20 @@
 <event-list>
   <style>
     .title {
-        font-weight: 800;
+      font-weight: 800;
+    }
+
+    .box .box-contents {
+      padding: 20px;
+      margin-bottom: 20px;
     }
   </style>
   
-  <div each="{event in events}">
-    <div class='title'>{event.title}</div>
-    <div>{event.description}</div>
+  <div each="{event in events}" class="box shadow1">
+    <div class='title header'>{event.title}</div>
+    <div class="box-contents">
+      <div>{event.description}</div>
+    </div>
   </div>
 
   <script>
