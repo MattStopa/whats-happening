@@ -19,13 +19,28 @@
   <div each="{event in events}" class="box shadow1">
     <div class='title header'>{event.title} <i class="far fa-edit right" onclick={edit}></i></div>
     <div class="box-contents">
-      <div style="white-space:pre-wrap;">{event.description}</div>
+      <quill-editor contents={event.json_description}></quill-editor>
     </div>
   </div>
 
   <script>
+
     this.events = null;
     let self = this;
+
+/*    this.on('mount', function() { 
+      setTimeout(function() { 
+        options = {
+          readOnly: true,
+          debug: false
+        }
+        self.quill = new Quill('.quill', options); 
+
+        self.quill.setContents(self.events[0].json_description)
+      },100)
+     
+    })
+*/
 
     edit(e) {
       xObserve.trigger('editSelected', e.item.event)

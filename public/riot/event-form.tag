@@ -48,7 +48,6 @@
         <div>
           <div class="label" style='vertical-align: top'>Description</div>
           <div class="editor"></div>
-          <textarea type="text" name="description" onblur={ doneEdit }  style="height: 70px">{event.description}</textarea>
         </div>
         <div>
           <div>
@@ -72,6 +71,7 @@
 
     this.event = {};
     this.picker = null
+    this.quill = null;
 
 
     xObserve.listen('editSelected', function(event) { 
@@ -79,6 +79,8 @@
       setTimeout(function() { 
         if(self.event.event_occured) {
           self.picker.setDate(new Date(self.event.event_occured))
+          self.quill.setContents(self.event.json_description)
+          self.quill.setContents(quill)
         }
       }, 10)
       self.update()
@@ -105,16 +107,13 @@
       self.picker = new Pikaday({ field: document.getElementById('datepicker') });
 
       var options = {
-        debug: 'info',
         modules: {
           toolbar: [
             ['bold', 'italic', 'underline', 'strike'], 
             ['blockquote', 'code-block'], 
             [{ 'header': 1 }, { 'header': 2 }], 
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
             [{ 'script': 'sub'}, { 'script': 'super' }],
             [{ 'indent': '-1'}, { 'indent': '+1' }], 
-            [{ 'direction': 'rtl' }], 
             [{ 'size': ['small', false, 'large', 'huge'] }], 
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
             [{ 'color': [] }, { 'background': [] }], 
@@ -127,7 +126,11 @@
         theme: 'snow'
       };
 
-      var editor = new Quill('.editor', options); 
+      this.quill = new Quill('.editor', options); 
+
+      this.quill.on('text-change', function(delta, oldDelta, source) {
+        self.event.json_description = self.quill.getContents();
+      });
 
       setTimeout(function(){
 
