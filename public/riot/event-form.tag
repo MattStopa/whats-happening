@@ -36,18 +36,18 @@
       background-position: 100%;
       width: 63%;
     }
+
+    .ql-snow {
+          margin-bottom: 0px !important;
+    }
   </style>
   
   <div class="box shadow1">
-    <h2 class="header">Event Details <i class="fas fa-times right pointer"></i></h2>
+    <h2 class="header">Event Details <i class="fas fa-times right pointer" onclick={closeEditor}></i></h2>
     <form onsubmit={submitMe} class="form-holder ">
         <div>
           <div class="label">Title</div>
           <input type="text" name="title" onblur={ doneEdit } value={event.title}  autocomplete="off" >
-        </div>
-        <div>
-          <div class="label" style='vertical-align: top'>Description</div>
-          <div class="editor"></div>
         </div>
         <div>
           <div>
@@ -60,7 +60,10 @@
           <div class="label">Date / Time</div>
           <input type="text" id="datepicker" name="event_occured" onblur={ doneEdit } value={event.event_occured}  autocomplete="off" >
         </div>
-
+        <div>
+          <div class="label" style='vertical-align: top'>Description</div>
+          <div class="editor"></div>
+        </div>
         <button class="button" type="submit">{ event.id ? 'Save' : 'Create' } </button>
     </form>
   </div>
@@ -108,19 +111,33 @@
 
       var options = {
         modules: {
-          toolbar: [
-            ['bold', 'italic', 'underline', 'strike'], 
-            ['blockquote', 'code-block'], 
-            [{ 'header': 1 }, { 'header': 2 }], 
-            [{ 'script': 'sub'}, { 'script': 'super' }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }], 
-            [{ 'size': ['small', false, 'large', 'huge'] }], 
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            [{ 'color': [] }, { 'background': [] }], 
-            [{ 'font': [] }], 
-            [{ 'align': [] }],
-            [ 'clean' ] 
-          ]
+          toolbar: {
+            container: [
+              ['bold', 'italic', 'underline'], 
+              ['blockquote', 'code-block'], 
+              [{ 'indent': '-1'}, { 'indent': '+1' }], 
+              ['link', 'image'],
+              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+              [{ 'font': [] }], 
+              [{ 'align': [] }],
+              [ 'clean' ] 
+            ],
+            handlers: {
+              'link': function(value) {
+                if (value) {
+                  var href = prompt('Enter the URL');
+                  this.quill.format('link', href);
+                } else {
+                  this.quill.format('link', false);
+                }
+              },
+              'image': function imageHandler() {
+                var range = this.quill.getSelection();
+                var value = prompt('What is the image URL');
+                this.quill.insertEmbed(range.index, 'image', value, Quill.sources.USER);
+              }
+            }
+          }
         },
         placeholder: 'Compose an epic...',
         theme: 'snow'
@@ -179,6 +196,11 @@
         },
         body: JSON.stringify({ event: self.event })
       })
+    }
+
+    closeEditor() {
+      this.event = {}
+      xObserve.trigger('editorClosed')
     }
 
   </script>

@@ -28,20 +28,6 @@
     this.events = null;
     let self = this;
 
-/*    this.on('mount', function() { 
-      setTimeout(function() { 
-        options = {
-          readOnly: true,
-          debug: false
-        }
-        self.quill = new Quill('.quill', options); 
-
-        self.quill.setContents(self.events[0].json_description)
-      },100)
-     
-    })
-*/
-
     edit(e) {
       xObserve.trigger('editSelected', e.item.event)
     }

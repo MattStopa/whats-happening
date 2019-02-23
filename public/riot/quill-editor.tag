@@ -1,9 +1,12 @@
 <quill-editor>
   <style>
+    .quill-edit img {
+      max-width: 350px;
+    }
   </style>
 
-  <div class="{klass}">
-  </div>
+    <div class="quill-edit {klass}">
+    </div>
   <script>
     let self = this;
     this.klass = "a" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
