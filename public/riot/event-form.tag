@@ -7,11 +7,10 @@
     .label {
       min-width: 100px;
       display: inline-block;
-      vertical-align: top;
     }
 
     .form-holder {
-      width: 400px;
+      width: 570px;
       padding: 21px;
     }
 
@@ -37,9 +36,6 @@
       background-position: 100%;
       width: 63%;
     }
-
-
-
   </style>
   
   <div class="box shadow1">
@@ -47,22 +43,26 @@
     <form onsubmit={submitMe} class="form-holder ">
         <div>
           <div class="label">Title</div>
-          <input type="text" name="title" onblur={ doneEdit } value={event.name}>
-          {event.name}
+          <input type="text" name="title" onblur={ doneEdit } value={event.title}  autocomplete="off" >
         </div>
         <div>
-          <div class="label">Description</div>
-          <textarea type="text" name="description" onblur={ doneEdit }  style="height: 70px"></textarea>
+          <div class="label" style='vertical-align: top'>Description</div>
+          <div class="editor"></div>
+          <textarea type="text" name="description" onblur={ doneEdit }  style="height: 70px">{event.description}</textarea>
         </div>
         <div>
-          <div class="label">Coord X</div>
-          <input type="text" name="coord_x" onblur={ doneEdit }  >
+          <div>
+            <div class="label">Address</div>
+            <input id="autocomplete" type="text" name="address" value={event.address} onblur={ doneEdit } autocomplete="off" >
+          </div>
+          <div style="font-size: 10px; margin-left: 104px;">Lat {event.lat} / Long {event.lng}</div>
+        </div>
         <div>
+          <div class="label">Date / Time</div>
+          <input type="text" id="datepicker" name="event_occured" onblur={ doneEdit } value={event.event_occured}  autocomplete="off" >
         </div>
-          <div class="label">Coord Y</div>
-          <input type="text" name="coord_y" onblur={ doneEdit }  >
-        </div>
-        <button class="button" type="submit">Create</button>
+
+        <button class="button" type="submit">{ event.id ? 'Save' : 'Create' } </button>
     </form>
   </div>
  
@@ -71,31 +71,110 @@
     let self = this;
 
     this.event = {};
+    this.picker = null
+
 
     xObserve.listen('editSelected', function(event) { 
       self.event = event;
-      console.log(self.event)
-      console.log(self)
+      setTimeout(function() { 
+        if(self.event.event_occured) {
+          self.picker.setDate(new Date(self.event.event_occured))
+        }
+      }, 10)
       self.update()
     })
 
     doneEdit(e) {
-      this.opts[e.target.name] = e.target.value;
+      this.event[e.target.name] = e.target.value;
     };
 
     input(e) {
-      this.opts[e.target.name] = e.target.value;
+      this.event[e.target.name] = e.target.value;
     }
+
+    function addMarker(latlng,title,map) {
+        var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: title,
+                draggable:true
+        });
+    }
+
+    this.on('mount', function() {
+      self.picker = new Pikaday({ field: document.getElementById('datepicker') });
+
+      var options = {
+        debug: 'info',
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'], 
+            ['blockquote', 'code-block'], 
+            [{ 'header': 1 }, { 'header': 2 }], 
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }], 
+            [{ 'direction': 'rtl' }], 
+            [{ 'size': ['small', false, 'large', 'huge'] }], 
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }], 
+            [{ 'font': [] }], 
+            [{ 'align': [] }],
+            [ 'clean' ] 
+          ]
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow'
+      };
+
+      var editor = new Quill('.editor', options); 
+
+      setTimeout(function(){
+
+        var input = document.getElementById('autocomplete');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        autocomplete.bindTo('bounds', window.map)
+
+        autocomplete.addListener('place_changed', function(event) {
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            // User entered the name of a Place that was not suggested and
+            // pressed the Enter key, or the Place Details request failed.
+            window.alert("No details available for input: '" + place.name + "'");
+            return;
+          }
+
+          self.event.lat = place.geometry.location.lat()
+          self.event.lng = place.geometry.location.lng()
+          self.event.address = place.formatted_address
+          self.update()
+
+          addMarker(place.geometry.location, 'Click Generated Marker', window.map)
+
+          // If the place has a geometry, then present it on a map.
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);  // Why 17? Because it looks good.
+          }
+
+        });
+      }, 1000)
+
+    })
+
     
     submitMe(e) {
       e.preventDefault()
 
-      fetch('/events', {
-        method: 'POST',
+      fetch('/events/' + self.event.id, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ event: self.opts })
+        body: JSON.stringify({ event: self.event })
       })
     }
 

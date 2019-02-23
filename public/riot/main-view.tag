@@ -4,10 +4,10 @@
 
 
     <div class="flex">
-        <div id="map"></div>
-        <event-list></event-list> 
+        <div id="map" class="flex-1"></div>
+        <event-list class="flex-1"></event-list> 
         <div> 
-            <event-form><event-form> 
+            <event-form class="flex-1"><event-form> 
         </div>
     <div>
 

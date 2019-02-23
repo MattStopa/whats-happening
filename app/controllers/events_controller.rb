@@ -9,4 +9,11 @@ class EventsController < ApplicationController
         event = Event.new(terms)
         event.save
     end
+
+    def update
+        terms = JSON.parse(request.raw_post)['event']
+        event = Event.find(terms.delete('id'))
+        event.update(terms)
+        event.save
+    end
 end

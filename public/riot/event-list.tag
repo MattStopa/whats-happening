@@ -19,7 +19,7 @@
   <div each="{event in events}" class="box shadow1">
     <div class='title header'>{event.title} <i class="far fa-edit right" onclick={edit}></i></div>
     <div class="box-contents">
-      <div>{event.description}</div>
+      <div style="white-space:pre-wrap;">{event.description}</div>
     </div>
   </div>
 
