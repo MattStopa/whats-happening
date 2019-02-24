@@ -90,18 +90,24 @@
         }
 
         .tag {
-            padding: 1px 10px;
-            border: 2px solid #146aa6;
+            color: #fff!important;
+            background-color: #79589F;
+            background-image: -webkit-gradient(linear,left top,right bottom,color-stop(0,rgba(171,142,205,0)),color-stop(1,#ab8ecd));
+            background-image: -o-linear-gradient(left top,rgba(171,142,205,0) 0,#ab8ecd 100%);
+            background-image: -moz-linear-gradient(left top,rgba(171,142,205,0) 0,#ab8ecd 100%);
+            background-image: -webkit-linear-gradient(left top,rgba(171,142,205,0) 0,#ab8ecd 100%);
+            background-image: -ms-linear-gradient(left top,rgba(171,142,205,0) 0,#ab8ecd 100%);
+            background-image: linear-gradient(to left top,rgba(171,142,205,0) 0,#ab8ecd 100%);
+            height: 24px;
+            line-height: 22px;
+            padding-left: 12px;
+            padding-right: 12px;
             display: inline-block;
-            color: white;
             border-radius: 3px;
-            background: #6aa9d5;
-            margin-right: 7px;
             font-size: 15px;
-            font-weight: 1000;
-            cursor: pointer;
+            font-weight: 800;
+            margin-right: 6px;
         }
-
 
     </style>
 
@@ -113,11 +119,13 @@
       var map;
 
     function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: -34.397, lng: 150.644},
-            zoom: 8
-        });
-        window.map = map
+        setTimeout( function() { 
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -34.397, lng: 150.644},
+                zoom: 8
+            });
+            window.map = map
+        }, 500)
      
       }
     </script>

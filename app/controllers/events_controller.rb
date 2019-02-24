@@ -6,6 +6,7 @@ class EventsController < ApplicationController
 
     def create
         terms = JSON.parse(request.raw_post)['event']
+        terms = check_tags_and_create(terms)
         event = Event.new(terms)
         event.save
     end
@@ -13,6 +14,9 @@ class EventsController < ApplicationController
     def update
         terms = JSON.parse(request.raw_post)['event']
         event = Event.find(terms.delete('id'))
+        # event.tags_into_db_tags(terms.delete('tags'))
+        terms = check_tags_and_create(terms)
+
         event.update(terms)
         event.save
     end
