@@ -11,5 +11,6 @@ MYSQL - Coordinates
 https://stackoverflow.com/questions/12504208/what-mysql-data-type-should-be-used-for-latitude-longitude-with-8-decimal-places
 https://gis.stackexchange.com/questions/31628/find-points-within-a-distance-using-mysql
 
-Possible Domain Names
+Possible Domain Names (Actually bought this)
 http://www.whaazup.com/
+

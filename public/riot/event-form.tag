@@ -38,7 +38,20 @@
     }
 
     .ql-snow {
-          margin-bottom: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .tag-holder {
+      width: 401px;
+      margin-left: 104px;
+      border-radius: 5px;
+      margin-top: -33px;
+      font-size: 12px;
+      margin-bottom: 45px;
+    }
+
+    .tagify tag x {
+      margin-top: -5px;
     }
   </style>
   
@@ -55,6 +68,10 @@
             <input id="autocomplete" type="text" name="address" value={event.address} onblur={ doneEdit } autocomplete="off" >
           </div>
           <div style="font-size: 10px; margin-left: 104px;">Lat {event.lat} / Long {event.lng}</div>
+        </div>
+        <div>
+          <div class="label">Tags</div>
+          <div class="tag-holder tag-input"></div>
         </div>
         <div>
           <div class="label">Date / Time</div>
@@ -75,6 +92,7 @@
     this.event = {};
     this.picker = null
     this.quill = null;
+    this.tagify = null;
 
 
     xObserve.listen('editSelected', function(event) { 
@@ -91,7 +109,13 @@
 
     doneEdit(e) {
       this.event[e.target.name] = e.target.value;
-    };
+    }
+
+    tagEntered(e) { 
+      if(e.code == 'Enter') {
+        this.event.tags = e.target.value.split(" ")
+      }
+    }
 
     input(e) {
       this.event[e.target.name] = e.target.value;
@@ -108,6 +132,10 @@
 
     this.on('mount', function() {
       self.picker = new Pikaday({ field: document.getElementById('datepicker') });
+
+      var input = document.querySelector('.tag-input')
+      self.tagify = new Tagify(input, {whitelist:[]})
+
 
       var options = {
         modules: {
@@ -151,6 +179,10 @@
 
       setTimeout(function(){
 
+        self.tagify.addTags(self.event.tags)
+        console.log(self)
+        console.log('tagify-value', self.tagify.value)
+
         var input = document.getElementById('autocomplete');
         var autocomplete = new google.maps.places.Autocomplete(input);
 
@@ -181,13 +213,15 @@
           }
 
         });
-      }, 1000)
+      }, 50)
 
     })
 
     
     submitMe(e) {
       e.preventDefault()
+
+      self.event.tags = self.tagify.value
 
       fetch('/events/' + self.event.id, {
         method: 'PUT',
