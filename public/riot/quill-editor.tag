@@ -1,8 +1,11 @@
 <quill-editor>
   <style>
     .quill-edit img {
-      object-fit: inherit;
-      width: 100% !important;
+      //object-fit: inherit;
+      //width: 100% !important;
+      object-fit: scale-down;
+      max-width: 100% !important;
+      max-height: 300px;
     }
   </style>
 

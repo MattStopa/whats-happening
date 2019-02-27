@@ -10,18 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190224043443) do
+ActiveRecord::Schema.define(version: 20190227015933) do
 
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title", null: false
     t.text "description", null: false
     t.json "coordinates"
     t.timestamp "event_occured"
-    t.json "tags"
     t.decimal "lat", precision: 10, scale: 8
     t.decimal "lng", precision: 11, scale: 8
     t.string "address"
     t.json "json_description"
+    t.bigint "occurance_year"
+    t.integer "occurance_day", limit: 1
+    t.integer "occurance_month", limit: 1
   end
 
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

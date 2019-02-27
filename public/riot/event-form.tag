@@ -107,6 +107,12 @@
       self.update()
     })
 
+    xObserve.listen('createNewEvent', function(event) { 
+      self.event = {};
+      self.update()
+    })
+
+
     doneEdit(e) {
       this.event[e.target.name] = e.target.value;
     }
@@ -175,13 +181,12 @@
 
       this.quill.on('text-change', function(delta, oldDelta, source) {
         self.event.json_description = self.quill.getContents();
+        self.event.description = self.quill.getText();
       });
 
       setTimeout(function(){
 
         self.tagify.addTags(self.event.tags)
-        console.log(self)
-        console.log('tagify-value', self.tagify.value)
 
         var input = document.getElementById('autocomplete');
         var autocomplete = new google.maps.places.Autocomplete(input);
@@ -223,13 +228,35 @@
 
       self.event.tags = self.tagify.value
 
-      fetch('/events/' + self.event.id, {
-        method: 'PUT',
+      let method = 'POST';
+      let url = 'events'
+
+      if(self.event.id) {
+        url = '/events/' + self.event.id
+        method = 'PUT'
+      }
+
+      fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ event: self.event })
-      })
+      }).then(function() { 
+        new Noty({
+            timeout: 3000,
+            type: 'success',
+            text: 'Successfully Saved',
+          
+        }).show();
+
+      }).catch(function() {
+          new Noty({
+            timeout: 3000,
+            type: 'error',
+            text: 'There was an issue saving',
+        }).show();
+      } )
     }
 
     closeEditor() {

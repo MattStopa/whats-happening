@@ -9,5 +9,5 @@ function EventService() {
                     console.log('parsing failed', ex)
                 })
         }
-    
+   
 }
