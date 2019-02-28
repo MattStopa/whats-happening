@@ -7,6 +7,17 @@ class EventsController < ApplicationController
                         order(occurance_year: :asc).all
     end
 
+    def by_tag
+
+        tag = Tag.where(title: params['tag']).first
+
+        if(tag)
+            render json: tag.events.order(occurance_year: :asc).where.not(occurance_year: nil)
+        else 
+            render json: []
+        end
+    end
+
     def create
         terms = JSON.parse(request.raw_post)['event']
         tags = check_tags_and_create(terms.delete('tags'))

@@ -56,7 +56,7 @@
     </div>
     <div class="flex">
         <div id="map" class="flex-1"></div>
-        <event-list class="flex-1"></event-list> 
+        <event-list tag={tag} class="flex-1"></event-list> 
         <div if={showEditor}> 
             <event-form class="flex-1"><event-form> 
         </div>
@@ -65,7 +65,15 @@
   <script>
     this.showEditor = false
     self = this
+    tag = ''
 
+    setTimeout( function(){ 
+      route.start(true)
+      var routes = route.create()
+      routes('/topic/*', function(tag) {
+        xObserve.trigger('tagChanged', tag)
+      })
+    }, 1000)
 
 
     xObserve.listen('editorClosed', function(event) { 
@@ -80,7 +88,7 @@
 
     createEvent() { 
       self.showEditor = true
-      
+
       xObserve.trigger('createEvent')
     }
 

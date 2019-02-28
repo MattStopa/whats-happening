@@ -131,7 +131,6 @@
 
         xObserve.listen('changeMapLocation', function(event) {
             let pos = new google.maps.LatLng( event.lat, event.lng);
-            console.log(event.id)
             map.setCenter(pos);
             var marker = new google.maps.Marker({
                 position: pos,
@@ -160,9 +159,8 @@
      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXP1atfjrMXBUbrxLgmxKgd_dfJ0mkD9o&callback=initMap&libraries=places"
     async defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
-    
-
     <script src="tagify.js"></script>
+    <script src="riot/route.min.js"></script>
 
     <script type="riot/tag" src="riot/quill-editor.tag"></script>
     <script type="riot/tag" src="riot/event-list.tag"></script>

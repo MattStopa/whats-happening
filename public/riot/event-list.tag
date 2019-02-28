@@ -28,7 +28,6 @@
       <div class='title header' onclick={navToEvent}>
         <span>{event.title}</span>
         <span>{event.event_date_display}</span>
-        
       </div>
       <div class="box-contents">
         <div class="tags">
@@ -45,6 +44,7 @@
     this.events = null;
     let self = this;
 
+
     navToEvent(e) { 
       e.item.event['displayIndex'] = this.events.indexOf(e.item.event)
       xObserve.trigger('changeMapLocation', e.item.event)
@@ -54,10 +54,29 @@
       xObserve.trigger('editSelected', e.item.event)
     }
 
-    new EventService().index(function(json) { 
-      self.events = json
-      self.update()
-    }) 
+    xObserve.listen('tagChanged', function(tag){ 
+      new EventService().byTag(tag, function(json) { 
+        self.events = json
+        self.update()
+      }) 
+    })
+
+    this.on('mount', function() { 
+      let tag = this.opts.tag || ''
+
+      if(tag){
+        new EventService().byTag(tag, function(json) { 
+          self.events = json
+          self.update()
+        }) 
+      } else {
+        new EventService().index(function(json) { 
+          self.events = json
+          self.update()
+        }) 
+      }
+    })
+
     
   </script>
 </event-list>
