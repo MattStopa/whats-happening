@@ -21,6 +21,10 @@
     .tags { 
       margin-left: 16px;
     }
+
+    a.tag {
+      text-decoration: none;
+    }
   </style>
 
   <div style="height: 50.25rem; overflow-x: scroll">
@@ -31,7 +35,9 @@
       </div>
       <div class="box-contents">
         <div class="tags">
-          <div class="tag pointer" each={tag in event.tags}>{tag.value}</div>
+          <a class="tag pointer" each={tag in event.tags} href="#topic/{tag.value}">
+            {tag.value}
+          </a>
           <i class="far fa-edit right" onclick={edit}></i>
         </div>
         <quill-editor contents={event.json_description}></quill-editor>
