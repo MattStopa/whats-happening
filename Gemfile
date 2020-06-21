@@ -24,7 +24,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'riotjs-rails'
 gem 'mysql2'
-require 'active_record'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

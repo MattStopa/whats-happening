@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20190227015933) do
     t.text "description", null: false
     t.json "coordinates"
     t.timestamp "event_occured"
+    t.json "tags"
     t.decimal "lat", precision: 10, scale: 8
     t.decimal "lng", precision: 11, scale: 8
     t.string "address"
