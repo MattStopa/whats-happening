@@ -1,17 +1,15 @@
-class Event < ActiveRecord::Base
-    has_many :tag_list, :class_name => 'TagsList'
-    has_many :tags, :class_name => 'Tag', through: :tag_list
+class Event
+    include Mongoid::Document
 
-    def as_json(options)
-        event_date = Date.new
-        if(occurance_year) 
-            event_date = Date.new(occurance_year, occurance_month, occurance_day + 1)
-        end 
+    field :title, type: String
+    field :status, type: String
+    field :description, type: String
+    field :date_finished, type: DateTime
 
-        super.merge({
-            tags: tags,
-            event_occured: event_date,
-            event_date_display: event_date.strftime("%b %d, %Y")
-         })
-    end
+    field :json_description, type: Hash
+
+    field :estimate_hour, type: Integer
+    field :estimate_minute, type: Integer
+    field :time_took_hour, type:Integer
+    field :time_took_minute, type:Integer
 end

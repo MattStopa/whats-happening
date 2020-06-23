@@ -14,3 +14,11 @@ https://gis.stackexchange.com/questions/31628/find-points-within-a-distance-usin
 Possible Domain Names (Actually bought this)
 http://www.whaazup.com/
 
+Domain name ideas
+diddoneit.com
+
+Documentation for RIOT
+https://v3.riotjs.now.sh/guide/
+
+Idea Let people add links and coupons to different products on a site. So if there is a discount people can share it.
+$10 a month job listings.

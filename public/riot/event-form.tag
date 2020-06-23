@@ -53,35 +53,60 @@
     .tagify tag x {
       margin-top: -5px;
     }
+
+    .green-btn {
+      color: #03af21;
+      border-color: #03af21;
+    }
   </style>
   
   <div class="box shadow1">
     <h2 class="header">Event Details <i class="fas fa-times right pointer" onclick={closeEditor}></i></h2>
     <form onsubmit={submitMe} class="form-holder ">
         <div>
+          <div class="label">Status</div>
+          <div class="button {this.event.status == ''}  {this.event.status=='done' ? 'green-btn' : ''} " onclick={ toggleDone }  >          
+            <i class="fas fa-check" if={this.event.status == 'done' } style='margin-right: 10px'></i> 
+
+            { this.event.status == 'done' ? 'Done' : 'Not Done' } 
+          </div>
+        </div>
+        <div>
           <div class="label">Title</div>
           <input type="text" name="title" onblur={ doneEdit } value={event.title}  autocomplete="off" >
         </div>
-        <div>
-          <div>
-            <div class="label">Address</div>
-            <input id="autocomplete" type="text" name="address" value={event.address} onblur={ doneEdit } autocomplete="off" >
-          </div>
-          <div style="font-size: 10px; margin-left: 104px;">Lat {event.lat} / Long {event.lng}</div>
-        </div>
-        <div>
+        <!--  <div>
           <div class="label">Tags</div>
           <div class="tag-holder tag-input"></div>
-        </div>
+        </div>  -->
         <div>
           <div class="label">Date / Time</div>
-          <input type="text" id="datepicker" name="event_occured" onblur={ doneEdit } value={event.event_occured}  autocomplete="off" >
+          <input type="text" id="datepicker" name="date_finished" onblur={ doneEdit } value={event.date_finished}  autocomplete="off" >
         </div>
+        <div style="border-bottom: 2px solid #d8d8d8"></div>
         <div>
-          <div class="label" style='vertical-align: top'>Description</div>
+          <div class="label">Hour Est.</div>
+          <input type="text" name="estimate_hour" onblur={ doneEdit } value={event.estimate_hour}  autocomplete="off" >
+
+          <div class="label">Minute Est.</div>
+          <input type="text" name="estimate_minute" onblur={ doneEdit } value={event.estimate_minute}  autocomplete="off" >
+        </div>
+        <div style="border-bottom: 2px solid #d8d8d8"></div>
+        <div>
+          <div class="label">Hours taken</div>
+          <input type="text" name="time_took_hour" onblur={ doneEdit } value={event.time_took_hour}  autocomplete="off" >
+
+          <div class="label">Min. Taken</div>
+          <input type="text" name="time_took_minute" onblur={ doneEdit } value={event.time_took_minute}  autocomplete="off" >
+        </div>
+        <div style="border-bottom: 2px solid #d8d8d8"></div>  
+        <div>
+          <div class="label" style='vertical-align: top'>Info</div>
           <div class="editor"></div>
         </div>
-        <button class="button" type="submit">{ event.id ? 'Save' : 'Create' } </button>
+        <button class="button" type="submit">
+          { event._id ? 'Save' : 'Create' } 
+        </button>
     </form>
   </div>
  
@@ -98,11 +123,8 @@
     xObserve.listen('editSelected', function(event) { 
       self.event = event;
       setTimeout(function() { 
-        if(self.event.event_occured) {
-          self.picker.setDate(new Date(self.event.event_occured))
           self.quill.setContents(self.event.json_description)
-          self.quill.setContents(quill)
-        }
+
       }, 10)
       self.update()
     })
@@ -112,6 +134,9 @@
       self.update()
     })
 
+    toggleDone(e) { 
+      this.event.status = this.event.status == 'done' ? 'not done' : 'done'
+    }
 
     doneEdit(e) {
       this.event[e.target.name] = e.target.value;
@@ -184,55 +209,17 @@
         self.event.description = self.quill.getText();
       });
 
-      setTimeout(function(){
-
-        self.tagify.addTags(self.event.tags)
-
-        var input = document.getElementById('autocomplete');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-
-        autocomplete.bindTo('bounds', window.map)
-
-        autocomplete.addListener('place_changed', function(event) {
-          var place = autocomplete.getPlace();
-          if (!place.geometry) {
-            // User entered the name of a Place that was not suggested and
-            // pressed the Enter key, or the Place Details request failed.
-            window.alert("No details available for input: '" + place.name + "'");
-            return;
-          }
-
-          self.event.lat = place.geometry.location.lat()
-          self.event.lng = place.geometry.location.lng()
-          self.event.address = place.formatted_address
-          self.update()
-
-          addMarker(place.geometry.location, 'Click Generated Marker', window.map)
-
-          // If the place has a geometry, then present it on a map.
-          if (place.geometry.viewport) {
-            map.fitBounds(place.geometry.viewport);
-          } else {
-            map.setCenter(place.geometry.location);
-            map.setZoom(17);  // Why 17? Because it looks good.
-          }
-
-        });
-      }, 50)
-
     })
 
     
     submitMe(e) {
       e.preventDefault()
 
-      self.event.tags = self.tagify.value
-
       let method = 'POST';
       let url = 'events'
 
-      if(self.event.id) {
-        url = '/events/' + self.event.id
+      if(self.event._id) {
+        url = '/events/' + self.event._id['$oid']
         method = 'PUT'
       }
 
@@ -257,6 +244,7 @@
             text: 'There was an issue saving',
         }).show();
       } )
+      this.closeEditor()
     }
 
     closeEditor() {

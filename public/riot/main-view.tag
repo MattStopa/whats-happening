@@ -3,7 +3,7 @@
     .page-header {
       height: 48px;
       width: 100%;
-      background-color: #145f9c;
+      background-color: #576875;
       margin-bottom: 10px;
       padding-top: 20px;
       border-bottom: 5px solid #adddff;
@@ -14,7 +14,8 @@
       margin-top: -24px;
       margin-left: 400px;
       font-size: 39px;
-      font-family: 'Coiny', cursive;
+      font-family: Impact;
+      letter-spacing: 1px;
     }
 
     .search-box {
@@ -42,30 +43,98 @@
       font-weight: 500;
       margin-top: 1px;
       cursor: pointer;
+      color: #fff;
+      margin-left: 19px;
+      margin-bottom: 11px;
+    }
+
+    .main-box {
+      padding: 10px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    li {
+      list-style-type: none;
+      margin-bottom: 6px;
+      background: #ffffff;
+      padding: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #b73232;
+    }
+
+    li:hover { 
+      background: #f5eebb
+    }
+
+    .bucket-panel { 
+      width: 200px;
+      height: 400px;
+      background: #ea7e54;
+      float: right;
+      color: #fff;
+      margin-right: 12px;
+      border-radius: 6px;
+      background: #576774e8;
+    }
+    
+    ul { 
+      padding: 0px;
+      margin: 0px;
+      padding: 9px 15px;
+    }
+
+    .add-form { 
+      position: absolute;
+      top: 87px;
+      background: #fff;
+      margin: auto;
+      width: 656px;
     }
 
   </style>
 
     <div class="page-header">
       <div class='logo'>
-        <span style="color:#c0d1ff; font-size: 50px">W</span>haazup       
-        <input type="text" class="search-box" placeholder="Type a term in here">
-        <div class="add-button" onclick={createEvent}><i class="fas fa-plus-circle"></i> Add Event</div>
+        <span style="color:#c0d1ff; font-size: 50px">D</span>id     
+        <span style="color:#c0d1ff; font-size: 50px">D</span>one     
+        <span style="color:#c0d1ff; font-size: 50px">I</span>t     
       </div>
 
     </div>
-    <div class="flex">
-        <div id="map" class="flex-1"></div>
-        <event-list tag={tag} class="flex-1"></event-list> 
-        <div if={showEditor}> 
-            <event-form class="flex-1"><event-form> 
-        </div>
     <div>
+      <div class='main-box' style="display: flex;   align-items: stretch;">
+        <div style="flex-grow: 1; float:right">
+          <div class="bucket-panel">
+            <ul>
+              <li each="{bucket in this.buckets}">
+                <div onclick="{setBucket}">
+                  <i class="fas fa-fill" aria-hidden="true"></i>{bucket}
+                </div>
+              </li>
+          </div>
+        </div>
+        <div style="flex-grow: 4">
+          <div >
+            <div class="add-button" onclick={createEvent}><i class="fas fa-plus-circle"></i> Add Event</div>
+          </div>
+          <div >
+            <event-list bucket={self.selectedBucket} class="flex-1"></event-list> 
+            <div if={showEditor} class='add-form'> 
+                <event-form class="flex-1"><event-form> 
+            </div>
+          <div>
+        </div>
+      </div>
+    </div>
 
   <script>
     this.showEditor = false
     self = this
     tag = ''
+    this.buckets = ['Ardian', 'College', 'New App', 'Samosa']
+
 
     setTimeout( function(){ 
       route.start(true)
@@ -75,6 +144,9 @@
       })
     }, 1000)
 
+    setBucket(e) { 
+      this.selectedBucket = e.item.bucket
+    }
 
     xObserve.listen('editorClosed', function(event) { 
       self.showEditor = false
