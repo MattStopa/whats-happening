@@ -72,6 +72,14 @@
           </div>
         </div>
         <div>
+          <div class="label">Time Taken</div>
+          <div class="button {this.event.active == true ? 'green-btn' : ''} " onclick={ toggleActive }  >          
+            <i class="fas fa-check" if={this.event.active == true } style='margin-right: 10px'></i> 
+
+            { this.event.active == true ? 'Stop' : 'Start' } 
+          </div>
+        </div>        
+        <div>
           <div class="label">Title</div>
           <input type="text" name="title" onblur={ doneEdit } value={event.title}  autocomplete="off" >
         </div>
@@ -114,13 +122,14 @@
     this.events = null;
     let self = this;
 
+    this.dirty = false;
     this.event = {};
     this.picker = null
     this.quill = null;
     this.tagify = null;
 
-
     xObserve.listen('editSelected', function(event) { 
+      self.dirty = false;
       self.event = event;
       setTimeout(function() { 
           self.quill.setContents(self.event.json_description)
@@ -135,11 +144,41 @@
     })
 
     toggleDone(e) { 
+      this.setDirty()
       this.event.status = this.event.status == 'done' ? 'not done' : 'done'
+      if(this.event.active) {
+        this.toggleActive()
+      }
+    }
+
+    setDirty() { 
+      this.dirty = true
     }
 
     doneEdit(e) {
-      this.event[e.target.name] = e.target.value;
+      if(this.hasActuallyChanged(this.event[e.target.name], e.target.value))  {
+        this.event[e.target.name] = e.target.value;
+        this.setDirty()
+      }
+    }
+
+    toggleActive()  {
+      this.event.active = !this.event.active;
+      if(this.event.active) {
+        this.event.clock_start = Date.now()
+      } else {
+        let milli = Date.now() - this.event.clock_start
+        console.log(milli)
+        let mins = parseInt(milli / 60000) || 1
+        this.event.time_took_minute = parseInt(this.event.time_took_minute || '0') + mins 
+      }
+      this.submitMe()
+    }
+
+    // Basically prevent empty strings from looking like nulls, lets just ignore those. Also lets convert all numbers into strings, 
+    // so we just do string compares so there are not any type issues.
+    hasActuallyChanged(str1, str2) { 
+      return (!(str1 === null && str2 === '') || (str1 === '' && str2 === null)) && (str1 +"" != str2 +"")
     }
 
     tagEntered(e) { 
@@ -166,7 +205,6 @@
 
       var input = document.querySelector('.tag-input')
       self.tagify = new Tagify(input, {whitelist:[]})
-
 
       var options = {
         modules: {
@@ -213,7 +251,9 @@
 
     
     submitMe(e) {
-      e.preventDefault()
+      if(e) { 
+        e.preventDefault()
+      }
 
       let method = 'POST';
       let url = 'events'
@@ -234,8 +274,13 @@
             timeout: 3000,
             type: 'success',
             text: 'Successfully Saved',
-          
         }).show();
+        
+        self.dirty = false;  
+        if(e) {
+          self.closeEditor()
+        }
+
 
       }).catch(function() {
           new Noty({
@@ -244,10 +289,16 @@
             text: 'There was an issue saving',
         }).show();
       } )
-      this.closeEditor()
+
     }
 
     closeEditor() {
+      if(this.dirty) {
+        let val = confirm("Are you sure you want to leave? You haven't saved.")
+        if(!val) { 
+          return
+        }
+      }
       this.event = {}
       xObserve.trigger('editorClosed')
     }

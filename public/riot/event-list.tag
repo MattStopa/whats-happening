@@ -73,6 +73,12 @@
       width: 50%;
       height: 20px;
     }
+
+    .active {
+      background: #ece2cb;
+      border: 2px solid #ffb200;
+    }
+
   </style>
 
   <div class='progress-bar'>
@@ -81,14 +87,37 @@
 
   {this.opts.bucket}
 
-  <div style="height: 50.25rem; overflow-x: scroll">
-    <div each="{event, index in events}" class="box shadow1 {event.status == 'done' ? 'done' : ''}" > 
-      <div class='title title-header'>
+  <div>
+    <h2>In progress </h2>
+    <div each="{event, index in events}" class="box shadow1 active" if="{event.active == true}"> 
+      <div class='title title-header' >
         <div class='number' onclick={toggleDone}>
          {index + 1}
-         <i class='fas fa-tasks' style="margin-left: 5px;
-    position: absolute;
-    margin-top: 3px;"></i>
+         <i class='fas fa-tasks' style="margin-left: 5px;position: absolute;margin-top: 3px;"></i>
+        </div>
+        <div style="display: flex; justify-content: space-between; width: 100%">
+          <span class='title'>{event.title}</span>
+          <div>
+            <span class="button" if="{event.status ==='done'}">
+              {minutesData(event).minutesTaken}/{minutesData(event).minutesEst}m {minutesData(event).percentageUsed}%
+            </span>
+            <span class="button" onclick="{edit}">Edit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style='margin-top: 10px; margin-bottom: 10px; '>
+  </div>
+
+  <div>
+    <h2>Tasks</h2>
+    <div each="{event, index in events}" class="box shadow1 {event.status == 'done' ? 'done' : ''}" if="{event.active != true}"> 
+      <div class='title title-header' >
+        <div class='number' onclick={toggleDone}>
+         {index + 1}
+         <i class='fas fa-tasks' style="margin-left: 5px;position: absolute;margin-top: 3px;"></i>
         </div>
         <div style="display: flex; justify-content: space-between; width: 100%">
           <span class='title'>{event.title}</span>
@@ -130,8 +159,7 @@
       data.minutesTaken = (event.time_took_hour * 60) + event.time_took_minute 
       data.minutesEst =  (event.estimate_hour * 60) + event.estimate_minute 
       data.percentageUsed =  ((event.time_took_hour * 60) + event.time_took_minute) / ((event.estimate_hour * 60) + event.estimate_minute)
-      data.percentageUsed = parseInt((100 * data.percentageUsed) )
-      console.log(data)
+      data.percentageUsed = 100 - parseInt((100 * data.percentageUsed) )
       return data
     }
 
@@ -171,6 +199,13 @@
       this.calcProgressBarSize()
       this.update()
     }
+
+    xObserve.listen('editorClosed', function(event) { 
+      new EventService().index(function(json) { 
+        self.events = json
+        self.rerender()
+      }) 
+    })
 
     this.on('mount', function() { 
       let tag = this.opts.tag || ''
