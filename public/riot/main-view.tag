@@ -110,7 +110,7 @@
             <ul>
               <li each="{bucket in this.buckets}">
                 <div onclick="{setBucket}">
-                  <i class="fas fa-fill" aria-hidden="true"></i>{bucket}
+                  <i class="fas fa-fill" aria-hidden="true"></i>{bucket.name}
                 </div>
               </li>
           </div>
@@ -133,8 +133,15 @@
     this.showEditor = false
     self = this
     tag = ''
-    this.buckets = ['Ardian', 'College', 'New App', 'Samosa']
+    this.buckets = []
 
+    this.on('mount', function() {
+      new BucketService().index(function(json) { 
+        self.buckets = json
+        self.selectedBucket = json[0] 
+        self.update()
+      })
+    })
 
     setTimeout( function(){ 
       route.start(true)

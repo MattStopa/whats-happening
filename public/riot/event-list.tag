@@ -93,8 +93,6 @@
     <div class="progress-display"></div>
   </div>
 
-  {this.opts.bucket}
-
   <div>
     <h2>In progress </h2>
     <div each="{event, index in events}" class="box shadow1 active" if="{event.active == true}"> 
@@ -155,22 +153,24 @@
   <script>
 
     this.events = null;
-    this.bucket = ''
+    this.bucket = null;
     let self = this;
+
 
     // this counter below is only so that you can force the timer to update every 1 second
     // without rerendering the whole page.
-    this.counterToToggle = false
-
     setInterval( function() { 
       self.update()
     }, 1000)
 
 
     this.on('update', function() {
-      if(this.bucket != this.opts.bucket) {
-        this.events = [{title: "Dog"}, {title: 'cat'}, {title: 'rat'}] 
+      if(!this.bucket || (this.opts.bucket && this.bucket.name != this.opts.bucket.name)) {
         this.bucket = this.opts.bucket
+        new EventService().forBucket(this.bucket._id.$oid, function(json) { 
+          self.events = json
+          self.rerender()
+        })
       }
     })
 
@@ -238,23 +238,5 @@
         self.rerender()
       }) 
     })
-
-    this.on('mount', function() { 
-      let tag = this.opts.tag || ''
-
-      if(tag){
-        new EventService().byTag(tag, function(json) { 
-          self.events = json
-          self.rerender()
-        }) 
-      } else {
-        new EventService().index(function(json) { 
-          self.events = json
-          self.rerender()
-        }) 
-      }
-    })
-
-    
   </script>
 </event-list>

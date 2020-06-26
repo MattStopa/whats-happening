@@ -4,7 +4,14 @@ Rails.application.routes.draw do
   resources :events do
     collection do
       get :by_tag, to: 'events#by_tag'
+      get "buckets/:id", to: "events#for_bucket"
     end
+
+
+
+  end
+
+  resources :buckets do
   end
 
 

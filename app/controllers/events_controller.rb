@@ -4,6 +4,10 @@ class EventsController < ApplicationController
         render json: Event.all 
     end
 
+    def for_bucket
+        render json: Bucket.find(params[:id]).events
+    end
+
     def create
         terms = JSON.parse(request.raw_post)['event']
         event = Event.new(terms)
