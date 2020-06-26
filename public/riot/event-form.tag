@@ -66,7 +66,7 @@
         <div>
           <div class="label">Status</div>
           <div class="button {this.event.status == ''}  {this.event.status=='done' ? 'green-btn' : ''} " onclick={ toggleDone }  >          
-            <i class="fas fa-check" if={this.event.status == 'done' } style='margin-right: 10px'></i> 
+            <i class="fas fa-check"  if="{ eventDone(this.event)}"  style='margin-right: 10px'></i> 
 
             { this.event.status == 'done' ? 'Done' : 'Not Done' } 
           </div>
@@ -88,7 +88,7 @@
           <div class="tag-holder tag-input"></div>
         </div>  -->
         <div>
-          <div class="label">Date / Time</div>
+          <div class="label">Date Finished</div>
           <input type="text" id="datepicker" name="date_finished" onblur={ doneEdit } value={event.date_finished}  autocomplete="off" >
         </div>
         <div style="border-bottom: 2px solid #d8d8d8"></div>
@@ -133,14 +133,33 @@
     this.quill = null;
     this.tagify = null;
 
+    // For some reason when this is triggered you have to wait some MS for riot to be ready. 
+    // I have no idea what is causing this.
     xObserve.listen('editSelected', function(event) { 
       self.dirty = false;
       self.event = event;
+
+  
+      // Set picker date time if it exists already
+      if(self.event.date_finished) {
+        window.picker = self.picker
+
+        // This timeout below MUST occur AFTER the update() timeout listed below. Otherwise the update
+        // occurs and the timer can't set the object. It's strange, idk why, but it's important. 
+        setTimeout(function() { 
+          self.picker.setDate(self.event.date_finished)
+        }, 20)
+
+      }
+
+      // Set quill contents
       setTimeout(function() { 
           self.quill.setContents(self.event.json_description)
 
       }, 10)
-      self.update()
+      setTimeout(function() { 
+        self.update()
+      }, 10)
     })
 
     xObserve.listen('createNewEvent', function(event) { 
@@ -148,12 +167,18 @@
       self.update()
     })
 
+    eventDone(event) { 
+      let val = event && event.status && event.status == 'done'
+      return val || false
+    }
+
     toggleDone(e) { 
       this.setDirty()
       this.event.status = this.event.status == 'done' ? 'not done' : 'done'
       if(this.event.active) {
         this.toggleActive()
       }
+      self.picker.setDate(new Date())
     }
 
     setDirty() { 
