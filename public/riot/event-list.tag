@@ -79,6 +79,14 @@
       border: 2px solid #ffb200;
     }
 
+    .time-counter {
+      margin-right: 10px;
+      background: #b37e00;
+      color: #fff;
+      padding: 5px;
+      border-radius: 6px;
+    }
+
   </style>
 
   <div class='progress-bar'>
@@ -100,6 +108,9 @@
           <div>
             <span class="button" if="{event.status ==='done'}">
               {minutesData(event).minutesTaken}/{minutesData(event).minutesEst}m {minutesData(event).percentageUsed}%
+            </span>
+            <span class="time-counter" if="{event.active}">
+              {timer(event, this.counterToToggle)}
             </span>
             <span class="button" onclick="{edit}">Edit</span>
           </div>
@@ -147,12 +158,33 @@
     this.bucket = ''
     let self = this;
 
+    // this counter below is only so that you can force the timer to update every 1 second
+    // without rerendering the whole page.
+    this.counterToToggle = false
+
+    setInterval( function() { 
+      self.update()
+    }, 1000)
+
+
     this.on('update', function() {
       if(this.bucket != this.opts.bucket) {
         this.events = [{title: "Dog"}, {title: 'cat'}, {title: 'rat'}] 
         this.bucket = this.opts.bucket
       }
     })
+
+    timer(event) {
+      let seconds = (Date.now() - parseInt(event.clock_start) ) / 1000
+      let minutes = parseInt(seconds / 60)
+      let realSeconds = parseInt(seconds % 60)
+
+      if(realSeconds < 10) {
+        realSeconds = "0" + realSeconds
+      }
+
+      return `${minutes}:${realSeconds}`
+    }
 
     minutesData(event) { 
       data = {}

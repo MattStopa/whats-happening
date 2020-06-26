@@ -1,5 +1,8 @@
 class Event
     include Mongoid::Document
+    include Mongoid::Timestamps  
+
+    belongs_to :bucket
 
     field :title, type: String
     field :status, type: String

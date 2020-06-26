@@ -17,6 +17,11 @@ class EventsController < ApplicationController
         event.save
     end
 
+    def destroy 
+        event = Event.find(params[:id])
+        render json: {"status": "success"} if event.destroy
+    end
+
     private 
         def check_tags_and_create(terms)
             terms.map do |tag|

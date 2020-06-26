@@ -86,7 +86,7 @@
     }
 
     .add-form { 
-      position: absolute;
+      position: fixed;
       top: 87px;
       background: #fff;
       margin: auto;
@@ -160,7 +160,6 @@
 
     createEvent() { 
       self.showEditor = true
-
       xObserve.trigger('createEvent')
     }
 

@@ -112,9 +112,14 @@
           <div class="label" style='vertical-align: top'>Info</div>
           <div class="editor"></div>
         </div>
-        <button class="button" type="submit">
-          { event._id ? 'Save' : 'Create' } 
-        </button>
+        <div style="display: flex; justify-content: space-between">
+          <button class="button" type="submit">
+            { event._id ? 'Save' : 'Create' } 
+          </button>
+          <div class="button" type="submit" onclick={deleteTask}>
+            Delete Task
+          </div>
+        </div>
     </form>
   </div>
  
@@ -162,13 +167,13 @@
       }
     }
 
+    //Turns a task on or off, meaning you are currently working on it or not.
     toggleActive()  {
       this.event.active = !this.event.active;
       if(this.event.active) {
         this.event.clock_start = Date.now()
       } else {
         let milli = Date.now() - this.event.clock_start
-        console.log(milli)
         let mins = parseInt(milli / 60000) || 1
         this.event.time_took_minute = parseInt(this.event.time_took_minute || '0') + mins 
       }
@@ -184,6 +189,33 @@
     tagEntered(e) { 
       if(e.code == 'Enter') {
         this.event.tags = e.target.value.split(" ")
+      }
+    }
+
+    deleteTask(e) { 
+      let msg = "Are you sure you want to delete this task? If you do it will be put in your deleted bucket. You can then restore it if needed in the next 30 days"
+      if(confirm(msg)) {
+        fetch('/events/' + self.event._id['$oid'], {
+          method: 'delete',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(function() { 
+          new Noty({
+              timeout: 3000,
+              type: 'success',
+              text: 'Successfully Deleted',
+          }).show();
+            
+          self.dirty = false;  
+          self.closeEditor()
+        }).catch(function() {
+            new Noty({
+              timeout: 3000,
+              type: 'error',
+              text: 'There was an issue saving',
+          }).show();
+        })
       }
     }
 
