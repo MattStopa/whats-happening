@@ -10,7 +10,9 @@ class EventsController < ApplicationController
 
     def create
         terms = JSON.parse(request.raw_post)['event']
+        bucket = terms.delete("bucket")
         event = Event.new(terms)
+        event.bucket = bucket['_id']['$oid']
         event.save
     end
 

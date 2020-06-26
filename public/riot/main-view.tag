@@ -108,8 +108,8 @@
         <div style="flex-grow: 1; float:right">
           <div class="bucket-panel">
             <ul>
-              <li each="{bucket in this.buckets}">
-                <div onclick="{setBucket}">
+              <li each="{bucket in this.buckets}" onclick="{setBucket}">
+                <div >
                   <i class="fas fa-fill" aria-hidden="true"></i>{bucket.name}
                 </div>
               </li>
@@ -122,7 +122,7 @@
           <div >
             <event-list bucket={self.selectedBucket} class="flex-1"></event-list> 
             <div if={showEditor} class='add-form'> 
-                <event-form class="flex-1"><event-form> 
+                <event-form bucket={self.selectedBucket} class="flex-1"><event-form> 
             </div>
           <div>
         </div>

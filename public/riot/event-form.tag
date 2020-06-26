@@ -290,6 +290,8 @@
       let method = 'POST';
       let url = 'events'
 
+      self.event.bucket = self.opts.bucket
+
       if(self.event._id) {
         url = '/events/' + self.event._id['$oid']
         method = 'PUT'

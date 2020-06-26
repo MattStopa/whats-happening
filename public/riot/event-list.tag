@@ -233,7 +233,8 @@
     }
 
     xObserve.listen('editorClosed', function(event) { 
-      new EventService().index(function(json) { 
+      console.log(self.bucket)
+      new EventService().forBucket(self.bucket._id.$oid, function(json) { 
         self.events = json
         self.rerender()
       }) 
