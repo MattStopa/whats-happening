@@ -168,6 +168,7 @@
       if(!this.bucket || (this.opts.bucket && this.bucket.name != this.opts.bucket.name)) {
         this.bucket = this.opts.bucket
         new EventService().forBucket(this.bucket._id.$oid, function(json) { 
+          xObserve.trigger('bucketResults', json)
           self.events = json
           self.rerender()
         })
@@ -179,11 +180,19 @@
       let minutes = parseInt(seconds / 60)
       let realSeconds = parseInt(seconds % 60)
 
+      let hours = minutes / 60
+
+      // for display: add a zero in front if from 0 to 9
       if(realSeconds < 10) {
         realSeconds = "0" + realSeconds
       }
 
-      return `${minutes}:${realSeconds}`
+      if(hours > 1) { 
+
+        return `${parseInt(hours)}:${minutes % 60}:${realSeconds}`
+      } else {
+        return `${minutes}:${realSeconds}`
+      }
     }
 
     minutesData(event) { 
@@ -233,7 +242,6 @@
     }
 
     xObserve.listen('editorClosed', function(event) { 
-      console.log(self.bucket)
       new EventService().forBucket(self.bucket._id.$oid, function(json) { 
         self.events = json
         self.rerender()

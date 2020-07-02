@@ -5,7 +5,14 @@ class EventsController < ApplicationController
     end
 
     def for_bucket
-        render json: Bucket.find(params[:id]).events
+        data = nil
+        if(params[:byDate]) 
+            data = Bucket.find(params[:id]).events.where(status: :'done').order_by(date_finished: :desc)
+        else
+            data = Bucket.find(params[:id]).events
+        end
+
+        render json: data
     end
 
     def create

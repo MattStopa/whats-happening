@@ -44,10 +44,12 @@
       margin-top: 1px;
       cursor: pointer;
       color: #fff;
-      margin-left: 19px;
       margin-bottom: 11px;
     }
 
+    .add-button:first-child { 
+      margin-left: 19px;
+    }
     .main-box {
       padding: 10px 20px;
       max-width: 1000px;
@@ -69,7 +71,7 @@
     }
 
     .bucket-panel { 
-      width: 200px;
+      width: 95%;
       height: 400px;
       background: #ea7e54;
       float: right;
@@ -93,6 +95,31 @@
       width: 656px;
     }
 
+    .mini-stats-panel {
+
+
+      padding-top: 0px;
+      border: 1px solid #d6d6d6;
+      margin-bottom: 9px;
+      margin-right: 10px;
+      text-align: center;
+      background: #fbfbfb;
+    }
+
+    .quick-stats-body { 
+      display: flex;
+      justify-content: space-between; 
+      padding: 20px 10px;
+    }
+
+    .quick-stats { 
+      margin-bottom: 10px;
+      background: #ffa603;
+      color: #fff;
+      padding: 7px 0px;
+      font-weight: 800;
+    }
+
   </style>
 
     <div class="page-header">
@@ -106,6 +133,15 @@
     <div>
       <div class='main-box' style="display: flex;   align-items: stretch;">
         <div style="flex-grow: 1; float:right">
+
+          <div class="mini-stats-panel">
+            <div class='quick-stats'>Quick Stats</div>
+            <div div class="quick-stats-body">
+              <div>Completed</div>
+              <div>{taskStats.finished} of {taskStats.open + taskStats.finished}</div>
+              <div>{taskStats.percentage}%</div>
+            </div>
+          </div>
           <div class="bucket-panel">
             <ul>
               <li each="{bucket in this.buckets}" onclick="{setBucket}">
@@ -118,11 +154,21 @@
         <div style="flex-grow: 4">
           <div >
             <div class="add-button" onclick={createEvent}><i class="fas fa-plus-circle"></i> Add Event</div>
+            <div style="float: right">
+              {view}
+              <div class="add-button" onclick={setView('tasks')}><i class="fas fa-list"></i> Tasks</div>
+              <div class="add-button" onclick={setView('logs')}><i class="fas fa-book-open"></i> Logs</div>
+            </div>
           </div>
-          <div >
-            <event-list bucket={self.selectedBucket} class="flex-1"></event-list> 
-            <div if={showEditor} class='add-form'> 
-                <event-form bucket={self.selectedBucket} class="flex-1"><event-form> 
+          <div>
+            <div if={view == "tasks"}>
+              <event-list bucket={self.selectedBucket} class="flex-1"></event-list> 
+              <div if={showEditor} class='add-form'> 
+                  <event-form bucket={self.selectedBucket} class="flex-1"><event-form> 
+              </div>
+            </div>
+            <div if={view == "logs"}>
+              <event-logs bucket={self.selectedBucket} class="flex-1"></event-logs>
             </div>
           <div>
         </div>
@@ -134,6 +180,8 @@
     self = this
     tag = ''
     this.buckets = []
+    this.taskStats = {}
+    this.view = 'tasks'
 
     this.on('mount', function() {
       new BucketService().index(function(json) { 
@@ -141,6 +189,24 @@
         self.selectedBucket = json[0] 
         self.update()
       })
+    })
+
+    this.setView = function(name) {
+      return function() { 
+        self.view = name
+        self.update()
+      }
+    }
+
+    xObserve.listen('bucketResults', function(tasks) {
+      self.taskStats.finished = 0
+      self.taskStats.open = 0
+      tasks.forEach(function(item){ 
+        (item.status == 'done') ? self.taskStats.finished++ : self.taskStats.open++
+      })
+
+      self.taskStats.percentage = parseInt((( self.taskStats.finished / (self.taskStats.open + self.taskStats.finished) ) ) * 100)
+      self.update()
     })
 
     setTimeout( function(){ 

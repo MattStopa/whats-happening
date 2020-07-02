@@ -18,6 +18,10 @@ Domain name ideas
 diddoneit.com
 gojitask
 timetasked
+taskviper
+lavatask
+akazitask
+aikitask
 
 
 Documentation for RIOT
@@ -27,5 +31,7 @@ Idea
 - Let people add links and coupons to different products on a site. So if there is a discount people can share it.
 - $10 a month job listings.
 - Website to shame companies with bad hiring practices
+- Embeddable Charts
+- Embeddable Analytics
 
 ||

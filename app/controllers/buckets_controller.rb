@@ -4,8 +4,6 @@ class BucketsController < ApplicationController
       render json: User.first.buckets 
   end
 
-  
-
   def create
       terms = JSON.parse(request.raw_post)['bucket']
       bucket = Bucket.new(terms)

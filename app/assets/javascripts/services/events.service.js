@@ -21,6 +21,17 @@ function EventService() {
                 })
         }
 
+        this.forBucketByDate = function(id, cb) { 
+            fetch(`/events/buckets/${id}.json?byDate=true`)
+                .then(function(response) {
+                    return response.json()
+                }).then(function(json) {
+                    cb(json)
+                }).catch(function(ex) {
+                    console.log('parsing failed', ex)
+                })
+        }
+
         this.byTag = function(tag, cb) { 
             fetch('/events/by_tag.json?tag='+tag)
                 .then(function(response) {

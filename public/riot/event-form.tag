@@ -190,6 +190,15 @@
         this.event[e.target.name] = e.target.value;
         this.setDirty()
       }
+
+      // 2 & 237
+      let value =  parseInt(e.target.value)
+      if(e.target.name == 'time_took_minute' && value > 60) {
+        self.event.time_took_hour = parseInt((parseInt(value) / 60) + self.event.time_took_hour )
+        self.event.time_took_minute = parseInt(value % 60)
+        self.update()
+        this.setDirty()
+      }
     }
 
     //Turns a task on or off, meaning you are currently working on it or not.
