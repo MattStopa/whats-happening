@@ -52,8 +52,6 @@
     }
     .main-box {
       padding: 10px 20px;
-      max-width: 1000px;
-      margin: auto;
     }
 
     li {
@@ -96,20 +94,62 @@
     }
 
     .mini-stats-panel {
-
-
-      padding-top: 0px;
-      border: 1px solid #d6d6d6;
-      margin-bottom: 9px;
       margin-right: 10px;
       text-align: center;
-      background: #fbfbfb;
+      margin-bottom: 5px;
+    }
+
+    .mini-stats-panel .headline {
+      background: #42b253;
+      color: #fff;
+      padding: 2px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .mini-stats-panel .headline.blue {
+      background: #4772de;
+    }
+
+    .mini-stats-panel .headline.orange {
+      background: #ffaa00;
+    }
+
+    .mini-stats-panel .tab {
+      border: 1px solid #42b253;
+      border-radius: 6px;
+      flex: 1;
+      margin-right: 3px;
+    }
+
+    .mini-stats-panel .tab.blue {
+      border: 1px solid #4772de;
+    }
+
+    .mini-stats-panel .tab.orange {
+      border: 1px solid #ffaa00;
+    }
+
+    .mini-stats-panel .tab .text {
+      font-size: 33px;
+      font-weight: 800;
+    }
+
+    .mini-stats-panel .tab .text.green {
+      color: #42b253;
+    }
+
+    .mini-stats-panel .tab .text.orange {
+      color: #ffaa00;
+    }
+
+    .mini-stats-panel .tab .text.blue {
+      color: #4772de;
     }
 
     .quick-stats-body { 
       display: flex;
       justify-content: space-between; 
-      padding: 20px 10px;
     }
 
     .quick-stats { 
@@ -118,6 +158,34 @@
       color: #fff;
       padding: 7px 0px;
       font-weight: 800;
+    }
+
+    .sort-button:hover .options {
+      display: block;
+      position: absolute;
+      background: #58768a;
+      padding: 9px;
+      margin-top: 7px;
+      margin-left: -8px;
+      border-radius: 3px;
+
+    }
+
+    .sort-button .options {
+      display: none;
+    }
+
+    .sort-button .options div {
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+
+    .sort-button .options div:hover {
+      background: #7da6c1;
+    }
+
+    .sort-button .options div.selected{
+      background: #7da6c1;
     }
 
   </style>
@@ -132,14 +200,22 @@
     </div>
     <div>
       <div class='main-box' style="display: flex;   align-items: stretch;">
-        <div style="flex-grow: 1; float:right">
+        <div style="flex: 1;">
 
           <div class="mini-stats-panel">
-            <div class='quick-stats'>Quick Stats</div>
             <div div class="quick-stats-body">
-              <div>Completed</div>
-              <div>{taskStats.finished} of {taskStats.open + taskStats.finished}</div>
-              <div>{taskStats.percentage}%</div>
+              <div class="tab">
+                <div class="headline">Done</div>
+                <div class="text green">{taskStats.finished}</div>
+              </div>
+              <div class="tab blue">
+                <div class="headline blue">Open</div>
+                <div class="text blue">{taskStats.open}</div>
+              </div>
+              <div class="tab orange">
+                <div class="headline orange">Partial</div>
+                <div class="text orange">2</div>
+              </div>
             </div>
           </div>
           <div class="bucket-panel">
@@ -151,13 +227,24 @@
               </li>
           </div>
         </div>
-        <div style="flex-grow: 4">
+        <div style="flex: 3">
           <div >
-            <div class="add-button" onclick={createEvent}><i class="fas fa-plus-circle"></i> Add Event</div>
+            <div class="add-button" onclick={createEvent}><i class="fas fa-plus-circle"></i>Add Event</div>
+            <div class="add-button sort-button">
+              <i class="fas fa-list"></i>
+              Sort
+              <div class='options'>
+                <div onclick={sort} class={ sortType == "updated_at:asc" ? 'selected' : ''} data-type="updated_at:asc">Last Modified - Oldest</div>
+                <div onclick={sort} class={ sortType == "updated_at:desc" ? 'selected' : ''} data-type="updated_at:desc">Last Modified - Newest</div>
+                <div onclick={sort} class={ sortType == "created_at:asc" ? 'selected' : ''} data-type="created_at:asc">Creation Date - Oldest</div>
+                <div onclick={sort} class={ sortType == "created_at:desc" ? 'selected' : ''} data-type="created_at:desc">Creation Date - Newest</div>
+              </div>
+            </div>
+            <div class="add-button" onclick={sortLatest}><i class="fas fa-list"></i>Filter</div>
             <div style="float: right">
               {view}
-              <div class="add-button" onclick={setView('tasks')}><i class="fas fa-list"></i> Tasks</div>
-              <div class="add-button" onclick={setView('logs')}><i class="fas fa-book-open"></i> Logs</div>
+              <div class="add-button" onclick={setView('tasks')}><i class="fas fa-list"></i>Tasks</div>
+              <div class="add-button" onclick={setView('logs')}><i class="fas fa-book-open"></i>Logs</div>
             </div>
           </div>
           <div>
@@ -182,6 +269,7 @@
     this.buckets = []
     this.taskStats = {}
     this.view = 'tasks'
+    this.sortType = "updated_at:asc" 
 
     this.on('mount', function() {
       new BucketService().index(function(json) { 
@@ -196,6 +284,15 @@
         self.view = name
         self.update()
       }
+    }
+
+    this.isSortSelected = function(event) { 
+
+    }
+
+    this.sort = function(x) {
+      self.sortType = x.target.getAttribute('data-type')
+      xObserve.trigger('sort', x.target.getAttribute('data-type').split(":"))
     }
 
     xObserve.listen('bucketResults', function(tasks) {

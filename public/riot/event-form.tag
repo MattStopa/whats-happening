@@ -179,6 +179,7 @@
         this.toggleActive()
       }
       self.picker.setDate(new Date())
+      this.event.date_finished = self.picker.toString('YYYY-MM-DD')
     }
 
     setDirty() { 

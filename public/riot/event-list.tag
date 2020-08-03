@@ -19,6 +19,12 @@
       background: #e4fbe5;
     }
 
+    .box.some {
+      border: 3px solid #8d8dff;
+      background: #e4e4fb;
+      color: #5a5720;
+    }
+
     .box .box-contents {
       padding: 20px;
       margin-bottom: 20px;
@@ -122,7 +128,7 @@
 
   <div>
     <h2>Tasks</h2>
-    <div each="{event, index in events}" class="box shadow1 {event.status == 'done' ? 'done' : ''}" if="{event.active != true}"> 
+    <div each="{event, index in events}" class="box shadow1 {event.status == 'done' ? 'done' : ''} {event.status != 'done' && event.time_took_minute > 0 ? 'some'  : ''}" if="{event.active != true}"> 
       <div class='title title-header' >
         <div class='number' onclick={toggleDone}>
          {index + 1}
@@ -246,6 +252,15 @@
         self.events = json
         self.rerender()
       }) 
+    })
+
+    xObserve.listen('sort', function(data) { 
+       
+       new EventService().forBucketSorted(self.bucket._id.$oid, data[0], data[1], function(json) { 
+          xObserve.trigger('bucketResults', json)
+          self.events = json
+          self.rerender()
+        })
     })
   </script>
 </event-list>

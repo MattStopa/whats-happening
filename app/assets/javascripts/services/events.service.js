@@ -21,6 +21,17 @@ function EventService() {
                 })
         }
 
+        this.forBucketSorted = function(id, sortKey, direction, cb) { 
+            fetch(`/events/buckets/${id}.json?sort=${sortKey}&direction=${direction}`)
+                .then(function(response) {
+                    return response.json()
+                }).then(function(json) {
+                    cb(json)
+                }).catch(function(ex) {
+                    console.log('parsing failed', ex)
+                })
+        }
+
         this.forBucketByDate = function(id, cb) { 
             fetch(`/events/buckets/${id}.json?byDate=true`)
                 .then(function(response) {

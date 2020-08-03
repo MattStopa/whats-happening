@@ -8,6 +8,8 @@ class EventsController < ApplicationController
         data = nil
         if(params[:byDate]) 
             data = Bucket.find(params[:id]).events.where(status: :'done').order_by(date_finished: :desc)
+        elsif params[:sort] 
+            data = Bucket.find(params[:id]).events.order_by(params[:sort] =>params[:direction])
         else
             data = Bucket.find(params[:id]).events
         end

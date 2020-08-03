@@ -87,14 +87,41 @@
       border-radius: 6px;
     }
 
+    .time-taken {
+      margin-left: 20px;
+      border: 2px solid #fbfbff;
+      border-radius: 7px;
+      padding: 5px 12px;
+      font-size: 17px;
+      background: #b591dd;
+      color: #fff;
+      height: fit-content;
+      margin-top: 19px;
+    }
+
+    .time-taken-mini {
+      border: 2px solid #fbfbff;
+      border-radius: 7px;
+      padding: 5px 12px;
+      font-size: 14px;
+      background: #7b7a7a;
+      color: #fff;
+      height: fit-content;
+    }
+
+    .box { padding-bottom: 22px; }
+
   </style>
 
   <div>
     <h2>Logs</h2>
-    <div each="{key in Object.keys(groupBy)}" class="box shadow1"> 
-      <h2>{key} - {timer(totalTimeTaken(groupBy[key]))}</h2>
-      <div each="{event in groupBy[key]}">
-        {event.title} - {timer(event.time_took_hour * 60 + event.time_took_minute)}
+    <div each="{key in Object.keys(groupBy)}" class="box">
+      <div style="display: flex; border-top: 2px solid #e4e4e4; padding-bottom: 5px; justify-content: space-between">
+        <h2>{key}</h2> <div class="time-taken"><i class="fas fa-clock" style="margin-right: 6px"></i>{timer(totalTimeTaken(groupBy[key]))}</div> 
+      </div> 
+      <div each="{event in groupBy[key]}" style="display: flex; justify-content: space-between">
+        <div style="margin-top: 5px">{event.title}</div>
+        <div class='time-taken-mini'>  +{timer(event.time_took_hour * 60 + event.time_took_minute)}</div>
       </div>
       <!--  <div class='title title-header' >
         <div style="display: flex; justify-content: space-between; width: 100%">
