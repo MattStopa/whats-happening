@@ -3,19 +3,18 @@
     .page-header {
       height: 48px;
       width: 100%;
-      background-color: #576875;
+      background-color: #f9f5ea;
       margin-bottom: 10px;
       padding-top: 20px;
-      border-bottom: 5px solid #adddff;
     }
 
     .logo {
       color: #fff;
-      margin-top: -24px;
-      margin-left: 400px;
+      margin-left: 54px;
       font-size: 39px;
       font-family: Impact;
       letter-spacing: 1px;
+      color: #565656;
     }
 
     .search-box {
@@ -51,7 +50,12 @@
       margin-left: 19px;
     }
     .main-box {
-      padding: 10px 20px;
+      display: flex;
+      align-items: stretch;
+      background: #fff;
+      margin: 0px 29px;
+      display: flex;   align-items: stretch;
+      padding: 11px;
     }
 
     li {
@@ -188,18 +192,49 @@
       background: #7da6c1;
     }
 
+    .filter-button:hover .options {
+      display: block;
+      position: absolute;
+      background: #58768a;
+      padding: 9px;
+      margin-top: 7px;
+      margin-left: -8px;
+      border-radius: 3px;
+    }
+
+
+    .filter-button .options {
+      display: none;
+    }
+
+    .filter-button .options div {
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+
+    .filter-button .options div:hover {
+      background: #7da6c1;
+    }
+
+    .filter-button .options div.selected{
+      background: #7da6c1;
+    }
+
+    .filter-button i {
+      margin-right: 8px;  
+    }
+
+
   </style>
 
     <div class="page-header">
       <div class='logo'>
-        <span style="color:#c0d1ff; font-size: 50px">D</span>id     
-        <span style="color:#c0d1ff; font-size: 50px">D</span>one     
-        <span style="color:#c0d1ff; font-size: 50px">I</span>t     
+        Task Master
       </div>
 
     </div>
     <div>
-      <div class='main-box' style="display: flex;   align-items: stretch;">
+      <div class='main-box'>
         <div style="flex: 1;">
 
           <div class="mini-stats-panel">
@@ -230,21 +265,41 @@
         <div style="flex: 3">
           <div >
             <div class="add-button" onclick={createEvent}><i class="fas fa-plus-circle"></i>Add Event</div>
+
             <div class="add-button sort-button">
               <i class="fas fa-list"></i>
               Sort
               <div class='options'>
-                <div onclick={sort} class={ sortType == "updated_at:asc" ? 'selected' : ''} data-type="updated_at:asc">Last Modified - Oldest</div>
-                <div onclick={sort} class={ sortType == "updated_at:desc" ? 'selected' : ''} data-type="updated_at:desc">Last Modified - Newest</div>
-                <div onclick={sort} class={ sortType == "created_at:asc" ? 'selected' : ''} data-type="created_at:asc">Creation Date - Oldest</div>
-                <div onclick={sort} class={ sortType == "created_at:desc" ? 'selected' : ''} data-type="created_at:desc">Creation Date - Newest</div>
+                <div onclick={sort} class={ sortType == "updated_at:desc" ? 'selected' : ''} data-type="updated_at:desc">Modified - Newest</div>
+                <div onclick={sort} class={ sortType == "updated_at:asc" ? 'selected' : ''} data-type="updated_at:asc">Modified - Oldest</div>
+                <div onclick={sort} class={ sortType == "created_at:desc" ? 'selected' : ''} data-type="created_at:desc">Created - Newest</div>
+                <div onclick={sort} class={ sortType == "created_at:asc" ? 'selected' : ''} data-type="created_at:asc">Created - Oldest</div>
               </div>
             </div>
-            <div class="add-button" onclick={sortLatest}><i class="fas fa-list"></i>Filter</div>
+
+            <div class="add-button filter-button" onclick={sortLatest}>
+              <i class="fas fa-list"></i>
+              Filter
+
+              <div class='options'>
+                <div onclick={filter} data-type="finished">
+                  <i class="far {filters.finished ? 'fa-check-square' : 'fa-square'}"></i>
+                  Finished
+                </div>
+                <div onclick={filter} data-type="open">
+                  <i class="far {filters.open ? 'fa-check-square' : 'fa-square'}"></i>
+                  Open
+                </div>
+                <!--  <div onclick={filter} data-type="partial">
+                  <i class="far {filters.partial ? 'fa-check-square' : 'fa-square'}"></i>
+                  Partial
+                </div>  -->
+              </div>
+            </div>
             <div style="float: right">
-              {view}
               <div class="add-button" onclick={setView('tasks')}><i class="fas fa-list"></i>Tasks</div>
               <div class="add-button" onclick={setView('logs')}><i class="fas fa-book-open"></i>Logs</div>
+              <div class="add-button" onclick={setView('charts')}><i class="fas fa-book-open"></i>Charts</div>
             </div>
           </div>
           <div>
@@ -256,6 +311,9 @@
             </div>
             <div if={view == "logs"}>
               <event-logs bucket={self.selectedBucket} class="flex-1"></event-logs>
+            </div>
+            <div if={view == "charts"}>
+              <chart-view bucket={self.selectedBucket} class="flex-1"></chart-view>
             </div>
           <div>
         </div>
@@ -270,6 +328,11 @@
     this.taskStats = {}
     this.view = 'tasks'
     this.sortType = "updated_at:asc" 
+    this.filters = {
+      finished: true,
+      open: true,
+      partial: true
+    }
 
     this.on('mount', function() {
       new BucketService().index(function(json) { 
@@ -277,6 +340,11 @@
         self.selectedBucket = json[0] 
         self.update()
       })
+      if(localStorage.getItem("filterAndSort") == null)  {
+        this.sortType = "updated_at:asc" 
+        this.storeFilterData() 
+      }
+
     })
 
     this.setView = function(name) {
@@ -286,13 +354,26 @@
       }
     }
 
-    this.isSortSelected = function(event) { 
-
+    this.filter = function(x) { 
+      let value = self.filters[x.target.getAttribute('data-type')]
+      self.filters[x.target.getAttribute('data-type')] = !value;
+      xObserve.trigger('sort', this.storeFilterData())
     }
 
     this.sort = function(x) {
       self.sortType = x.target.getAttribute('data-type')
-      xObserve.trigger('sort', x.target.getAttribute('data-type').split(":"))
+      xObserve.trigger('sort', this.storeFilterData())
+    }
+
+    this.storeFilterData = function() { 
+      let data = this.sortType.split(":")
+      let values = { 
+        sortKey: data[0], 
+        direction: data[1],
+        filters: self.filters
+      }
+      localStorage.setItem("filterAndSort", JSON.stringify(values))
+      return values;
     }
 
     xObserve.listen('bucketResults', function(tasks) {

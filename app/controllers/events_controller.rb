@@ -5,13 +5,22 @@ class EventsController < ApplicationController
     end
 
     def for_bucket
-        data = nil
+        data = Bucket.find(params[:id]).events
+
+        statuses = []
+        statuses.push('done') if params[:fil_closed] == "true"
+        statuses.push('not done') if params[:fil_open] == "true"
+        statuses.push(nil) if params[:fil_open] == "true"
+
+        data = data.in(status: statuses)
+        Rails.logger.error(data.inspect)
+
         if(params[:byDate]) 
             data = Bucket.find(params[:id]).events.where(status: :'done').order_by(date_finished: :desc)
         elsif params[:sort] 
-            data = Bucket.find(params[:id]).events.order_by(params[:sort] =>params[:direction])
+            data = data.order_by(params[:sort] => params[:direction])
         else
-            data = Bucket.find(params[:id]).events
+            data
         end
 
         render json: data
