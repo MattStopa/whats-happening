@@ -54,8 +54,8 @@ function EventService() {
                 })
         }
 
-        this.forChart = function(id, cb) { 
-            fetch(`/events/buckets/${id}.json?forChart=true`)
+        this.generateChart = function(id, days, type, cb) { 
+            fetch(`/events/charts/${id}.json?type=${type}&days=${days}`)
                 .then(function(response) {
                     return response.json()
                 }).then(function(json) {

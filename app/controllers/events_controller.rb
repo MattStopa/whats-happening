@@ -5,6 +5,7 @@ class EventsController < ApplicationController
     end
 
     def for_bucket
+
         data = Bucket.find(params[:id]).events
 
         statuses = []
@@ -15,7 +16,7 @@ class EventsController < ApplicationController
         data = data.in(status: statuses)
         Rails.logger.error(data.inspect)
 
-        if(params[:byDate]) 
+        if params[:byDate]
             data = Bucket.find(params[:id]).events.where(status: :'done').order_by(date_finished: :desc)
         elsif params[:sort] 
             data = data.order_by(params[:sort] => params[:direction])
@@ -26,6 +27,19 @@ class EventsController < ApplicationController
         render json: data
     end
 
+    def generate_chart
+        data = nil
+        if params[:type] == 'bar'
+            data = ChartBuilder.gen_bar_chart( params[:id], params[:days].to_i, params[:type])
+        elsif params[:type] == 'burn'
+            data = ChartBuilder.gen_burn_chart( params[:id], params[:days].to_i, params[:type])
+        elsif params[:type] == 'build'
+            data = ChartBuilder.gen_build_chart( params[:id], params[:days].to_i, params[:type])
+        end
+        render json: data
+    end
+
+    
     def create
         terms = JSON.parse(request.raw_post)['event']
         bucket = terms.delete("bucket")

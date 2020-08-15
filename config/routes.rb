@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     collection do
       get :by_tag, to: 'events#by_tag'
       get "buckets/:id", to: "events#for_bucket"
+      get "charts/:id", to: "events#generate_chart"
     end
   end
 

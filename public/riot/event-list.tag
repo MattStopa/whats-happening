@@ -8,8 +8,7 @@
     }
 
     .title.title-header {
-
-      padding: 20px;
+      padding: 10px 20px;
       border-bottom: 1px solid #eaecef;
       margin-top: 0px;
     }
@@ -46,7 +45,6 @@
     .number {
       position: absolute;
       height: 32px;
-      width: 27px;
       margin-left: -48px;
       margin-top: -9px;
       border-radius: 24px;
@@ -55,8 +53,20 @@
       color: #fff;
       padding-left: 13px;
       padding-top: 9px;
-      padding-right: 8px;
+      padding-right: 11px;
     }
+
+    .number.first { background: #83cc00; }
+    .number.second { background: #f99114; }
+    .number.third { background: #aa7cca; }
+    .number.fourth { background: #fef00e; color: #000 !important; }
+    .number.fifth { background: #83cc00; }
+    .number.sixth { background: #14b5f9; }
+    .number.seventh { background: #837a78; }
+    .number.eighth { background: #83cc00; }
+    .number.nineth { background: #000; color: #000 !important;}
+    .number.tenth { background: #fef00e;  color: #000}
+
 
     .title { 
       margin-left: 10px;
@@ -75,7 +85,7 @@
     }
 
     .progress-display {
-      background: #9ebda0;
+      background: #83cc00;
       width: 50%;
       height: 20px;
     }
@@ -93,6 +103,10 @@
       border-radius: 6px;
     }
 
+    h2 {
+      margin-left: 21px;
+    }
+
   </style>
 
   <div class='progress-bar'>
@@ -103,9 +117,8 @@
     <h2>In progress </h2>
     <div each="{event, index in events}" class="box shadow1 active" if="{event.active == true}"> 
       <div class='title title-header' >
-        <div class='number' onclick={toggleDone}>
-         {index + 1}
-         <i class='fas fa-tasks' style="margin-left: 5px;position: absolute;margin-top: 3px;"></i>
+        <div class='number {event.color}' onclick={toggleDone}>
+          {event.task_number}
         </div>
         <div style="display: flex; justify-content: space-between; width: 100%">
           <span class='title'>{event.title}</span>
@@ -130,16 +143,15 @@
     <h2>Tasks</h2>
     <div each="{event, index in events}" class="box shadow1 {event.status == 'done' ? 'done' : ''} {event.status != 'done' && event.time_took_minute > 0 ? 'some'  : ''}" if="{event.active != true}"> 
       <div class='title title-header' >
-        <div class='number' onclick={toggleDone}>
-         {index + 1}
-         <i class='fas fa-tasks' style="margin-left: 5px;position: absolute;margin-top: 3px;"></i>
+        <div class='number {event.color}' onclick={toggleDone}>
+          {event.task_number}
         </div>
         <div style="display: flex; justify-content: space-between; width: 100%">
           <span class='title'>{event.title}</span>
           <div>
-            <span class="button" if="{event.status ==='done'}">
+            <!--  <span class="button" if="{event.status ==='done'}">
               {minutesData(event).minutesTaken}/{minutesData(event).minutesEst}m {minutesData(event).percentageUsed}%
-            </span>
+            </span>  -->
             <span class="button" onclick="{edit}">Edit</span>
           </div>
         </div>

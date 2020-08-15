@@ -5,7 +5,7 @@
       width: 100%;
       background-color: #f9f5ea;
       margin-bottom: 10px;
-      padding-top: 20px;
+      padding-top: 14px;
     }
 
     .logo {
@@ -35,15 +35,20 @@
     .add-button{ 
       display: inline-block;
       font-family: "Open Sans";
-      font-size: 17px;
-      background: #91bfdd;
+      font-size: 15px;
+      background: #f3f2f2;
       padding: 6px 8px;
       border-radius: 4px;
       font-weight: 500;
       margin-top: 1px;
       cursor: pointer;
-      color: #fff;
+      color: #5a5a5a;
       margin-bottom: 11px;
+      border: 1px solid #d0d0d0;
+    }
+
+    .add-button i {
+      margin-right: 5px;
     }
 
     .add-button:first-child { 
@@ -54,8 +59,11 @@
       align-items: stretch;
       background: #fff;
       margin: 0px 29px;
-      display: flex;   align-items: stretch;
+      display: flex;   
+      align-items: stretch;
       padding: 11px;
+      border: 1px solid #d8d8d8;
+      border-radius: 4px;
     }
 
     li {
@@ -81,6 +89,7 @@
       margin-right: 12px;
       border-radius: 6px;
       background: #576774e8;
+      padding-top: 7px;
     }
     
     ul { 
@@ -167,12 +176,12 @@
     .sort-button:hover .options {
       display: block;
       position: absolute;
-      background: #58768a;
+      background: #fafafa;
       padding: 9px;
       margin-top: 7px;
       margin-left: -8px;
       border-radius: 3px;
-
+      border: 1px solid #d1d1d1;
     }
 
     .sort-button .options {
@@ -189,17 +198,19 @@
     }
 
     .sort-button .options div.selected{
-      background: #7da6c1;
+      background: #4772de;
+      color: #fff;
     }
 
     .filter-button:hover .options {
       display: block;
       position: absolute;
-      background: #58768a;
+      background: #fafafa;
       padding: 9px;
       margin-top: 7px;
       margin-left: -8px;
       border-radius: 3px;
+      border: 1px solid #d1d1d1;
     }
 
 
@@ -217,7 +228,8 @@
     }
 
     .filter-button .options div.selected{
-      background: #7da6c1;
+      padding: 5px 10px;
+      border-radius: 3px;
     }
 
     .filter-button i {
@@ -297,6 +309,7 @@
               </div>
             </div>
             <div style="float: right">
+              {view}
               <div class="add-button" onclick={setView('tasks')}><i class="fas fa-list"></i>Tasks</div>
               <div class="add-button" onclick={setView('logs')}><i class="fas fa-book-open"></i>Logs</div>
               <div class="add-button" onclick={setView('charts')}><i class="fas fa-book-open"></i>Charts</div>
@@ -350,6 +363,7 @@
     this.setView = function(name) {
       return function() { 
         self.view = name
+        console.log(name)
         self.update()
       }
     }
