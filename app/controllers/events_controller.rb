@@ -5,7 +5,6 @@ class EventsController < ApplicationController
     end
 
     def for_bucket
-
         data = Bucket.find(params[:id]).events
 
         statuses = []

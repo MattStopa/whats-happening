@@ -9,6 +9,7 @@ class Event
 
     field :task_number, type: Integer
     field :color, type: String
+    field :task_size, type: Integer
 
     field :title, type: String
     field :status, type: String
@@ -25,6 +26,8 @@ class Event
     field :active, type: Boolean
     field :clock_start, type: String
     field :minutes_taken, type: Integer
+
+
 
     def increase_bucket_count
       unless self.task_number

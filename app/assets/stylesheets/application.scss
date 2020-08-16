@@ -1,0 +1,257 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+ .page-header {
+  height: 48px;
+  width: 100%;
+  background-color: #f9f5ea;
+  margin-bottom: 10px;
+  padding-top: 14px;
+}
+
+.logo {
+  color: #fff;
+  margin-left: 54px;
+  font-size: 39px;
+  font-family: Impact;
+  letter-spacing: 1px;
+  color: #565656;
+}
+
+.main-box {
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  margin: 0px 29px;
+  display: flex;   
+  align-items: stretch;
+  padding: 11px;
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+}
+
+.main-box {
+
+  .search-box {
+    margin-top: -13px;
+    display: inline-block;
+    vertical-align: center;
+    width: 700px;
+    font-size: 27px;
+    margin-left: 39px;
+    border-radius: 5px;
+    background: #ffffff;
+    padding: 3px;
+    padding-left: 21px;
+    margin-bottom: 9px;
+    color: #72bcea;
+  }
+
+  .add-button{ 
+    display: inline-block;
+    font-family: "Open Sans";
+    font-size: 15px;
+    background: #f3f2f2;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-top: 1px;
+    cursor: pointer;
+    color: #5a5a5a;
+    margin-bottom: 11px;
+    border: 1px solid #d0d0d0;
+  }
+
+  .add-button i {
+    margin-right: 5px;
+  }
+
+  // .add-button:first-child { 
+  //   margin-left: 19px;
+  // }
+
+
+  li {
+    list-style-type: none;
+    margin-bottom: 6px;
+    background: #ffffff;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #b73232;
+  }
+
+  li:hover { 
+    background: #f5eebb
+  }
+
+  .bucket-panel { 
+    width: 95%;
+    height: 400px;
+    background: #ea7e54;
+    float: right;
+    color: #fff;
+    margin-right: 12px;
+    border-radius: 6px;
+    background: #576774e8;
+    padding-top: 7px;
+  }
+
+  ul { 
+    padding: 0px;
+    margin: 0px;
+    padding: 9px 15px;
+  }
+
+  .add-form { 
+    position: fixed;
+    top: 87px;
+    background: #fff;
+    margin: auto;
+    width: 656px;
+  }
+
+  .mini-stats-panel {
+    margin-right: 10px;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  .mini-stats-panel .headline {
+    background: #42b253;
+    color: #fff;
+    padding: 2px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .mini-stats-panel .headline.blue {
+    background: #4772de;
+  }
+
+  .mini-stats-panel .headline.orange {
+    background: #ffaa00;
+  }
+
+  .mini-stats-panel .tab {
+    border: 1px solid #42b253;
+    border-radius: 6px;
+    flex: 1;
+    margin-right: 3px;
+  }
+
+  .mini-stats-panel .tab.blue {
+    border: 1px solid #4772de;
+  }
+
+  .mini-stats-panel .tab.orange {
+    border: 1px solid #ffaa00;
+  }
+
+  .mini-stats-panel .tab .text {
+    font-size: 33px;
+    font-weight: 800;
+  }
+
+  .mini-stats-panel .tab .text.green {
+    color: #42b253;
+  }
+
+  .mini-stats-panel .tab .text.orange {
+    color: #ffaa00;
+  }
+
+  .mini-stats-panel .tab .text.blue {
+    color: #4772de;
+  }
+
+  .quick-stats-body { 
+    display: flex;
+    justify-content: space-between; 
+  }
+
+  .quick-stats { 
+    margin-bottom: 10px;
+    background: #ffa603;
+    color: #fff;
+    padding: 7px 0px;
+    font-weight: 800;
+  }
+
+  .sort-button:hover .options {
+    display: block;
+    position: absolute;
+    background: #fafafa;
+    padding: 9px;
+    margin-top: 7px;
+    margin-left: -8px;
+    border-radius: 3px;
+    border: 1px solid #d1d1d1;
+  }
+
+  .sort-button .options {
+    display: none;
+  }
+
+  .sort-button .options div {
+    padding: 5px 10px;
+    border-radius: 3px;
+  }
+
+  .sort-button .options div:hover {
+    background: #7da6c1;
+  }
+
+  .sort-button .options div.selected{
+    background: #4772de;
+    color: #fff;
+  }
+
+  .filter-button:hover .options {
+    display: block;
+    position: absolute;
+    background: #fafafa;
+    padding: 9px;
+    margin-top: 7px;
+    margin-left: -8px;
+    border-radius: 3px;
+    border: 1px solid #d1d1d1;
+  }
+
+
+  .filter-button .options {
+    display: none;
+  }
+
+  .filter-button .options div {
+    padding: 5px 10px;
+    border-radius: 3px;
+  }
+
+  .filter-button .options div:hover {
+    background: #7da6c1;
+  }
+
+  .filter-button .options div.selected{
+    padding: 5px 10px;
+    border-radius: 3px;
+  }
+
+  .filter-button i {
+    margin-right: 8px;  
+  }
+}
+

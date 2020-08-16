@@ -58,6 +58,37 @@
       color: #03af21;
       border-color: #03af21;
     }
+
+    .multi-select {
+      display: flex;
+    }
+
+    .multi-select div:first-child {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+
+    .multi-select div:last-child {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+
+    .multi-select div { 
+      border: 1px solid #d5d5d5;
+      padding: 5px 9px;
+      cursor: pointer;
+    }
+
+    .multi-select div:hover { 
+      background: #fcaa02;
+      color: #fff;
+    }
+
+    .multi-select div.selected {
+      background: #fcaa02;
+      color: #fff;
+    }
   </style>
   
   <div class="box shadow1">
@@ -79,6 +110,19 @@
             { this.event.active == true ? 'Stop' : 'Start' } 
           </div>
         </div>        
+        <div>
+
+        <div>
+          <div class="label">Points</div>
+          <div class="multi-select">
+            <div onclick={ setTaskSize } data-size="1" class="{this.event.task_size == 1 ? 'selected' : ''}" >Tiny</div>
+            <div onclick={ setTaskSize } data-size="3" class="{this.event.task_size == 3 ? 'selected' : ''}">Small</div>
+            <div onclick={ setTaskSize } data-size="5" class="{this.event.task_size == 5 ? 'selected' : ''}">Medium</div>
+            <div onclick={ setTaskSize } data-size="7" class="{this.event.task_size == 7 ? 'selected' : ''}">Large</div>
+            <div onclick={ setTaskSize } data-size="9" class="{this.event.task_size == 9 ? 'selected' : ''}">Huge</div>
+          </div>
+        </div>
+        <div style="border-bottom: 2px solid #d8d8d8"></div>  
         <div>
           <div class="label">Title</div>
           <input type="text" name="title" onblur={ doneEdit } value={event.title}  autocomplete="off" >
@@ -166,6 +210,12 @@
       self.event = {};
       self.update()
     })
+
+    setTaskSize(event) { 
+      size = event.target.getAttribute('data-size')
+      this.event.task_size = size
+      self.update()
+    }
 
     eventDone(event) { 
       let val = event && event.status && event.status == 'done'
