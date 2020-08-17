@@ -20,5 +20,7 @@
     this.selected = function(e) { 
       self.opts.onSelected(e.target.getAttribute('data-type'))
     }
+
+    
   </script>
 </multi-select>

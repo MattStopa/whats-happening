@@ -12,7 +12,6 @@
 
     this.selected = function(e){ 
       self.opts.onSelected(e.target.getAttribute('data-type'))
-      console.log(self.opts)
     }
   </script>
 </drop-select>

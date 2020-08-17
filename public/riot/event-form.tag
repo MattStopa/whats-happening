@@ -1,171 +1,83 @@
 <event-form>
-  <style>
-    .title {
-        font-weight: 800;
-    }
+  {opts.showEditor}
+  <div class='event-form {opts.showEditor ? "visible" : ""}'> 
+    <div class="box shadow1">
+      <h2 class="header">Event Details <i class="fas fa-times right pointer" onclick={closeEditor}></i></h2>
+      <form onsubmit={submitMe} class="form-holder ">
+          <div>
+            <div class="label">Status</div>
+            <div class="button {this.event.status == ''}  {this.event.status=='done' ? 'green-btn' : ''} " onclick={ toggleDone }  >          
+              <i class="fas fa-check"  if="{ eventDone(this.event)}"  style='margin-right: 10px'></i> 
 
-    .label {
-      min-width: 100px;
-      display: inline-block;
-    }
-
-    .form-holder {
-      width: 570px;
-      padding: 21px;
-    }
-
-    .form-holder div {
-      margin-bottom: 10px;
-    }
-
-    input, textarea {
-      line-height: 20px;
-      transition: background .1s ease,border-color .1s ease;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      outline: 0;
-      border-radius: 4px;
-      font-size: 13px;
-      border: 1px solid #cfd7e6;
-      box-shadow: inset 0 1px 2px 0 rgba(207,215,230,.4);
-      box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-      padding: 0 30px 0 10px;
-      height: 32px;
-      background-color: #fff;
-      background-repeat: no-repeat;
-      background-position: 100%;
-      width: 63%;
-    }
-
-    .ql-snow {
-        margin-bottom: 0px !important;
-    }
-
-    .tag-holder {
-      width: 401px;
-      margin-left: 104px;
-      border-radius: 5px;
-      margin-top: -33px;
-      font-size: 12px;
-      margin-bottom: 45px;
-    }
-
-    .tagify tag x {
-      margin-top: -5px;
-    }
-
-    .green-btn {
-      color: #03af21;
-      border-color: #03af21;
-    }
-
-    .multi-select {
-      display: flex;
-    }
-
-    .multi-select div:first-child {
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-    }
-
-    .multi-select div:last-child {
-      border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-
-
-    .multi-select div { 
-      border: 1px solid #d5d5d5;
-      padding: 5px 9px;
-      cursor: pointer;
-    }
-
-    .multi-select div:hover { 
-      background: #fcaa02;
-      color: #fff;
-    }
-
-    .multi-select div.selected {
-      background: #fcaa02;
-      color: #fff;
-    }
-  </style>
-  
-  <div class="box shadow1">
-    <h2 class="header">Event Details <i class="fas fa-times right pointer" onclick={closeEditor}></i></h2>
-    <form onsubmit={submitMe} class="form-holder ">
-        <div>
-          <div class="label">Status</div>
-          <div class="button {this.event.status == ''}  {this.event.status=='done' ? 'green-btn' : ''} " onclick={ toggleDone }  >          
-            <i class="fas fa-check"  if="{ eventDone(this.event)}"  style='margin-right: 10px'></i> 
-
-            { this.event.status == 'done' ? 'Done' : 'Not Done' } 
+              { this.event.status == 'done' ? 'Done' : 'Not Done' } 
+            </div>
           </div>
-        </div>
-        <div>
-          <div class="label">Time Taken</div>
-          <div class="button {this.event.active == true ? 'green-btn' : ''} " onclick={ toggleActive }  >          
-            <i class="fas fa-check" if={this.event.active == true } style='margin-right: 10px'></i> 
+          <div>
+            <div class="label">Time Taken</div>
+            <div class="button {this.event.active == true ? 'green-btn' : ''} " onclick={ toggleActive }  >          
+              <i class="fas fa-check" if={this.event.active == true } style='margin-right: 10px'></i> 
 
-            { this.event.active == true ? 'Stop' : 'Start' } 
+              { this.event.active == true ? 'Stop' : 'Start' } 
+            </div>
+          </div>        
+          <div>
+
+          <div>
+            <div class="label">Points</div>
+            <div class="multi-select">
+              <div onclick={ setTaskSize } data-size="1" class="{this.event.task_size == 1 ? 'selected' : ''}" >Tiny</div>
+              <div onclick={ setTaskSize } data-size="3" class="{this.event.task_size == 3 ? 'selected' : ''}">Small</div>
+              <div onclick={ setTaskSize } data-size="5" class="{this.event.task_size == 5 ? 'selected' : ''}">Medium</div>
+              <div onclick={ setTaskSize } data-size="7" class="{this.event.task_size == 7 ? 'selected' : ''}">Large</div>
+              <div onclick={ setTaskSize } data-size="9" class="{this.event.task_size == 9 ? 'selected' : ''}">Huge</div>
+            </div>
           </div>
-        </div>        
-        <div>
-
-        <div>
-          <div class="label">Points</div>
-          <div class="multi-select">
-            <div onclick={ setTaskSize } data-size="1" class="{this.event.task_size == 1 ? 'selected' : ''}" >Tiny</div>
-            <div onclick={ setTaskSize } data-size="3" class="{this.event.task_size == 3 ? 'selected' : ''}">Small</div>
-            <div onclick={ setTaskSize } data-size="5" class="{this.event.task_size == 5 ? 'selected' : ''}">Medium</div>
-            <div onclick={ setTaskSize } data-size="7" class="{this.event.task_size == 7 ? 'selected' : ''}">Large</div>
-            <div onclick={ setTaskSize } data-size="9" class="{this.event.task_size == 9 ? 'selected' : ''}">Huge</div>
+          <div style="border-bottom: 2px solid #d8d8d8"></div>  
+          <div>
+            <div class="label">Title</div>
+            <input type="text" name="title" onblur={ doneEdit } value={event.title}  autocomplete="off" >
           </div>
-        </div>
-        <div style="border-bottom: 2px solid #d8d8d8"></div>  
-        <div>
-          <div class="label">Title</div>
-          <input type="text" name="title" onblur={ doneEdit } value={event.title}  autocomplete="off" >
-        </div>
-        <!--  <div>
-          <div class="label">Tags</div>
-          <div class="tag-holder tag-input"></div>
-        </div>  -->
-        <div>
-          <div class="label">Date Finished</div>
-          <input type="text" id="datepicker" name="date_finished" onblur={ doneEdit } value={event.date_finished}  autocomplete="off" >
-        </div>
-        <div style="border-bottom: 2px solid #d8d8d8"></div>
-        <div>
-          <div class="label">Hour Est.</div>
-          <input type="text" name="estimate_hour" onblur={ doneEdit } value={event.estimate_hour}  autocomplete="off" >
-
-          <div class="label">Minute Est.</div>
-          <input type="text" name="estimate_minute" onblur={ doneEdit } value={event.estimate_minute}  autocomplete="off" >
-        </div>
-        <div style="border-bottom: 2px solid #d8d8d8"></div>
-        <div>
-          <div class="label">Hours taken</div>
-          <input type="text" name="time_took_hour" onblur={ doneEdit } value={event.time_took_hour}  autocomplete="off" >
-
-          <div class="label">Min. Taken</div>
-          <input type="text" name="time_took_minute" onblur={ doneEdit } value={event.time_took_minute}  autocomplete="off" >
-        </div>
-        <div style="border-bottom: 2px solid #d8d8d8"></div>  
-        <div>
-          <div class="label" style='vertical-align: top'>Info</div>
-          <div class="editor"></div>
-        </div>
-        <div style="display: flex; justify-content: space-between">
-          <button class="button" type="submit">
-            { event._id ? 'Save' : 'Create' } 
-          </button>
-          <div class="button" type="submit" onclick={deleteTask}>
-            Delete Task
+          <!--  <div>
+            <div class="label">Tags</div>
+            <div class="tag-holder tag-input"></div>
+          </div>  -->
+          <div>
+            <div class="label">Date Finished</div>
+            <input type="text" id="datepicker" name="date_finished" onblur={ doneEdit } value={event.date_finished}  autocomplete="off" >
           </div>
-        </div>
-    </form>
+          <div style="border-bottom: 2px solid #d8d8d8"></div>
+          <div>
+            <div class="label">Hour Est.</div>
+            <input type="text" name="estimate_hour" onblur={ doneEdit } value={event.estimate_hour}  autocomplete="off" >
+
+            <div class="label">Minute Est.</div>
+            <input type="text" name="estimate_minute" onblur={ doneEdit } value={event.estimate_minute}  autocomplete="off" >
+          </div>
+          <div style="border-bottom: 2px solid #d8d8d8"></div>
+          <div>
+            <div class="label">Hours taken</div>
+            <input type="text" name="time_took_hour" onblur={ doneEdit } value={event.time_took_hour}  autocomplete="off" >
+
+            <div class="label">Min. Taken</div>
+            <input type="text" name="time_took_minute" onblur={ doneEdit } value={event.time_took_minute}  autocomplete="off" >
+          </div>
+          <div style="border-bottom: 2px solid #d8d8d8"></div>  
+          <div>
+            <div class="label" style='vertical-align: top'>Info</div>
+            <div class="editor"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between">
+            <button class="button" type="submit">
+              { event._id ? 'Save' : 'Create' } 
+            </button>
+            <div class="button" type="submit" onclick={deleteTask}>
+              Delete Task
+            </div>
+          </div>
+      </form>
+    </div>
   </div>
+</div>
  
   <script>
     this.events = null;
@@ -177,13 +89,14 @@
     this.quill = null;
     this.tagify = null;
 
+
     // For some reason when this is triggered you have to wait some MS for riot to be ready. 
     // I have no idea what is causing this.
-    xObserve.listen('editSelected', function(event) { 
+    xObserve.listen('editSelected', 'event-form', function(event) { 
       self.dirty = false;
       self.event = event;
 
-  
+ 
       // Set picker date time if it exists already
       if(self.event.date_finished) {
         window.picker = self.picker
@@ -206,7 +119,8 @@
       }, 10)
     })
 
-    xObserve.listen('createNewEvent', function(event) { 
+    xObserve.listen('createNewEvent', 'event-form', function(event) { 
+      console.log("---------")
       self.event = {};
       self.update()
     })

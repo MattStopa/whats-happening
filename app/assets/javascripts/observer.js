@@ -3,14 +3,29 @@ function xObserveable() {
 
     this.trigger = function(eventName, data) {
         if(this.observableEvents[eventName]) { 
-            for(let item of this.observableEvents[eventName]) {
-                item(data)
+            for(let index in this.observableEvents[eventName]) {
+                this.observableEvents[eventName][index]['cb'](data)
             }
         }
     }
 
-    this.listen = function(eventName, cb) {
+    this.listen = function(eventName, location, cb) {
+        let found = false;
+
+        console.log(eventName, location)
+
         this.observableEvents[eventName] = this.observableEvents[eventName] || []
-        this.observableEvents[eventName].push(cb)
+
+        // Replace the callback if it's in the same spot. Prevent dupes basically
+        this.observableEvents[eventName].forEach( function(item) { 
+            if(item.location == location) {
+                item.cb = cb
+                found = true
+            }
+        })
+        console.log("found: " , found)
+
+
+        if(!found) this.observableEvents[eventName].push({location: location, cb: cb})
     }
 }

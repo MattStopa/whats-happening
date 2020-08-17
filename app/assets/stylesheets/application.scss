@@ -116,12 +116,107 @@
     padding: 9px 15px;
   }
 
-  .add-form { 
+  .event-form { 
     position: fixed;
     top: 87px;
     background: #fff;
     margin: auto;
     width: 656px;
+    display: none;
+
+    .title {
+      font-weight: 800;
+    }
+
+    .label {
+      min-width: 100px;
+      display: inline-block;
+    }
+
+    .form-holder {
+      width: 570px;
+      padding: 21px;
+    }
+
+    .form-holder div {
+      margin-bottom: 10px;
+    }
+
+    input, textarea {
+      line-height: 20px;
+      transition: background .1s ease,border-color .1s ease;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      outline: 0;
+      border-radius: 4px;
+      font-size: 13px;
+      border: 1px solid #cfd7e6;
+      box-shadow: inset 0 1px 2px 0 rgba(207,215,230,.4);
+      box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+      padding: 0 30px 0 10px;
+      height: 32px;
+      background-color: #fff;
+      background-repeat: no-repeat;
+      background-position: 100%;
+      width: 63%;
+    }
+
+    .ql-snow {
+        margin-bottom: 0px !important;
+    }
+
+    .tag-holder {
+      width: 401px;
+      margin-left: 104px;
+      border-radius: 5px;
+      margin-top: -33px;
+      font-size: 12px;
+      margin-bottom: 45px;
+    }
+
+    .tagify tag x {
+      margin-top: -5px;
+    }
+
+    .green-btn {
+      color: #03af21;
+      border-color: #03af21;
+    }
+
+    .multi-select {
+      display: flex;
+    }
+
+    .multi-select div:first-child {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+
+    .multi-select div:last-child {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+
+    .multi-select div { 
+      border: 1px solid #d5d5d5;
+      padding: 5px 9px;
+      cursor: pointer;
+    }
+
+    .multi-select div:hover { 
+      background: #fcaa02;
+      color: #fff;
+    }
+
+    .multi-select div.selected {
+      background: #fcaa02;
+      color: #fff;
+    }
+
+    &.visible { 
+      display: block !important;
+    }
   }
 
   .mini-stats-panel {
@@ -252,6 +347,116 @@
 
   .filter-button i {
     margin-right: 8px;  
+  }
+
+  .event-list { 
+    .title {
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .title.title-header {
+      padding: 10px 20px;
+      border-bottom: 1px solid #eaecef;
+      margin-top: 0px;
+    }
+
+    .box.done {
+      border: 3px solid #3db741;
+      background: #e4fbe5;
+    }
+
+    .box.some {
+      border: 3px solid #8d8dff;
+      background: #e4e4fb;
+      color: #5a5720;
+    }
+
+    .box .box-contents {
+      padding: 20px;
+      margin-bottom: 20px;
+      margin-bottom: 4px;
+    }
+
+    .fa-edit {
+      color: #ff9922;
+      cursor: pointer;
+    }
+
+    .tags { 
+      margin-left: 16px;
+    }
+
+    a.tag {
+      text-decoration: none;
+    }
+    .number {
+      position: absolute;
+      height: 32px;
+      margin-left: -48px;
+      margin-top: -9px;
+      border-radius: 24px;
+      background: #b73233;
+      border: 1px solid #e0e0e0;
+      color: #fff;
+      padding-left: 13px;
+      padding-top: 9px;
+      padding-right: 11px;
+    }
+
+    .number.first { background: #83cc00; }
+    .number.second { background: #f99114; }
+    .number.third { background: #aa7cca; }
+    .number.fourth { background: #fef00e; color: #000 !important; }
+    .number.fifth { background: #83cc00; }
+    .number.sixth { background: #14b5f9; }
+    .number.seventh { background: #837a78; }
+    .number.eighth { background: #83cc00; }
+    .number.nineth { background: #000; color: #000 !important;}
+    .number.tenth { background: #fef00e;  color: #000}
+
+
+    .title { 
+      margin-left: 10px;
+    }
+
+    .progress-bar { 
+      height: 20px;
+      width: 95%;
+      background: #fff;
+      margin-left: 19px;
+      margin-bottom: 16px;
+      padding: 4px 5px;
+      border: 2px solid #eaeaea;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .progress-display {
+      background: #83cc00;
+      width: 50%;
+      height: 20px;
+    }
+
+    .active {
+      background: #ece2cb;
+      border: 2px solid #ffb200;
+    }
+
+    .time-counter {
+      margin-right: 10px;
+      background: #b37e00;
+      color: #fff;
+      padding: 5px;
+      border-radius: 6px;
+    }
+
+    h2 {
+      margin-left: 21px;
+    }
+
   }
 }
 

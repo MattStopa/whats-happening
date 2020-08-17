@@ -13,10 +13,10 @@
         <div style="flex: 3">
           <div >
             <div class="add-button" onclick={createEvent}><i class="fas fa-plus-circle"></i>Add Event</div>
-
-            <drop-select select={this.sortType} items={sorterOptions} on-selected="{sort}" button-text="Sort" button-icon="fa-list"></drop-select>
-            <multi-select select={this.sortType} items={filters} on-selected="{filter}" button-text="Filter" button-icon="fa-list"></multi-select>
-           
+            <div if={view == 'tasks'} style="display: inline-block">
+              <drop-select select={this.sortType} items={sorterOptions} on-selected="{sort}" button-text="Sort" button-icon="fa-list"></drop-select>
+              <multi-select select={this.sortType} items={filters} on-selected="{filter}" button-text="Filter" button-icon="fa-list"></multi-select>
+            </div>
             <div style="float: right">
               {view}
               <div class="add-button" onclick={setView('tasks')}><i class="fas fa-list"></i>Tasks</div>
@@ -24,20 +24,7 @@
               <div class="add-button" onclick={setView('charts')}><i class="fas fa-book-open"></i>Charts</div>
             </div>
           </div>
-          <div>
-            <div if={view == "tasks"}>
-              <event-list bucket={self.selectedBucket} class="flex-1"></event-list> 
-              <div if={showEditor} class='add-form'> 
-                  <event-form bucket={self.selectedBucket} class="flex-1"><event-form> 
-              </div>
-            </div>
-            <div if={view == "logs"}>
-              <event-logs bucket={self.selectedBucket} class="flex-1"></event-logs>
-            </div>
-            <div if={view == "charts"}>
-              <chart-view bucket={self.selectedBucket} class="flex-1"></chart-view>
-            </div>
-          <div>
+          <view-switcher view={view} show-editor={showEditor} bucket={selectedBucket}></view-switcher>
         </div>
       </div>
     </div>
@@ -79,7 +66,6 @@
     this.setView = function(name) {
       return function() { 
         self.view = name
-        console.log(name)
         self.update()
       }
     }
@@ -106,7 +92,7 @@
       return values;
     }
 
-    xObserve.listen('bucketResults', function(tasks) {
+    xObserve.listen('bucketResults', 'main-view', function(tasks) {
       self.taskStats.finished = 0
       self.taskStats.open = 0
       tasks.forEach(function(item){ 
@@ -130,12 +116,12 @@
       this.update()
     }
 
-    xObserve.listen('editorClosed', function(event) { 
+    xObserve.listen('editorClosed', 'main-view', function(event) { 
       self.showEditor = false
       self.update()
     })
 
-    xObserve.listen('editSelected', function(event) { 
+    xObserve.listen('editSelected', 'main-view', function(event) { 
       self.showEditor = true
       self.update()
     })
