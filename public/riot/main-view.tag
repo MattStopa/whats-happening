@@ -1,25 +1,26 @@
 <main-view>
     <div class="page-header py-1">
-      <div class='logo ml-12 text-4xl tracking-wide'>
-        Task Man.
+      <div class='logo ml-3 text-4xl tracking-wide flex'>
+        <div><i class="fas fa-bars sm:hidden"></i></div>
+        <div class="ml-5">Task Man.</div>
       </div>
     </div>
     <div>
-      <div class="flex bg-white main-box mx-8 p-3">
-        <div class="w-1/4">
+      <div class="flex bg-white main-box lg:mx-8 p-3 md:mx-0 ">
+        <div class="w-56 min-14 xs:hidden">
           <stats-panel stats={taskStats}></stats-panel>
           <bucket-selector buckets={this.buckets} onSelected="{setBucket}"></bucket-selector>
         </div>
-        <div class="w-3/4">
+        <div class="w-full">
           <div class="flex justify-between">
-            <div>
-              <button class="btn" onclick={createEvent}><i class="fas fa-plus-circle"></i>Add Event</button>
+            <div class="xs:half">
+              <button class="btn" onclick={createEvent}><i class="fas fa-plus-circle"></i><span class="xs:hidden">Add Event</span></button>
               <div if={view == 'tasks'} class='inline-block'>
                 <drop-select select={this.sortType} items={sorterOptions} on-selected="{sort}" button-text="Sort" button-icon="fa-list"></drop-select>
                 <multi-select select={this.sortType} items={filters} on-selected="{filter}" button-text="Filter" button-icon="fa-list"></multi-select>
               </div>
             </div>
-            <div >
+            <div class="xs:half">
               <button class="btn" onclick={setView('tasks')}><i class="fas fa-list"></i>Tasks</button>
               <button class="btn" onclick={setView('logs')}><i class="fas fa-book-open"></i>Logs</button>
               <button class="btn" onclick={setView('charts')}><i class="fas fa-book-open"></i>Charts</button>

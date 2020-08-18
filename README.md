@@ -37,3 +37,6 @@ Idea
 - Embeddable Analytics
 
 ||
+
+
+http://demo.interface.club/limitless/demo/Template/layout_5/LTR/default/full/index.html (good ideas for charts I could use)

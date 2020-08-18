@@ -1,8 +1,5 @@
 <event-list>
   <div class="event-list">
-    <div class='progress-bar my-4 mx-5'>
-      <div class="progress-display"></div>
-    </div>
 
     <div>
       <h2 class="my-4 mx-5 text-2xl font-bold">In progress </h2>
@@ -74,19 +71,8 @@
       }) 
     })
 
-    calcProgressBarSize() {
-      let count = 0;
-      this.events.forEach( function(event) { 
-        if(event.status == 'done') {
-          count += 1;
-        }
-      })
-     let percent =  (count / this.events.length ) * 100
-     document.getElementsByClassName("progress-display")[0].style.width = percent+ "%"
-    }
 
     rerender() { 
-      this.calcProgressBarSize()
       this.update()
     }
 
