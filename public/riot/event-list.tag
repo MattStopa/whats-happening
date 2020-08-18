@@ -1,20 +1,20 @@
 <event-list>
   <div class="event-list">
-    <div class='progress-bar'>
+    <div class='progress-bar my-4 mx-5'>
       <div class="progress-display"></div>
     </div>
 
     <div>
-      <h2>In progress </h2>
-      <event-list-details events={events} active={true}></event-list-details>
+      <h2 class="my-4 mx-5 text-2xl font-bold">In progress </h2>
+      <event-list-details events={events} active={true} edit={edit}></event-list-details>
     </div>
 
-    <div style='margin-top: 10px; margin-bottom: 10px; '>
+    <div class="spacer">
     </div>
 
-    <div >
-      <h2>Tasks</h2>
-      <event-list-details events={events} active={false}></event-list-details>
+    <div>
+      <h2 class="my-4 mx-5 text-2xl font-bold">Tasks</h2>
+      <event-list-details events={events} active={false} edit={edit}></event-list-details>
     </div>
   </div>
   <script>

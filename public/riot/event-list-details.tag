@@ -1,11 +1,12 @@
 <event-list-details>
     <div each="{event, index in opts.events}" > 
-      <div class="box shadow1 {event.active ? 'active' : ''} {event.status == 'done' ? 'done' : ''} {  event.status != 'done' && event.time_took_minute > 0  && !event.active ? 'some'  : ''}     " if={show(event)}>
+      <div class="box shadow1 {event.active ? 'active' : ''} {event.status == 'done' ? 'done' : ''} {  event.status != 'done' && 
+      (event.time_took_hour > 0 || event.time_took_minute > 0 ) && !event.active ? 'some'  : ''}     " if={show(event)}>
         <div class='title title-header'  >
-          <div class='number {event.color}' onclick={toggleDone}>
+          <div class='number {event.color}'>
             {event.task_number}
           </div>
-          <div style="display: flex; justify-content: space-between; width: 100%">
+          <div class="list-item">
             <span class='title'>{event.title}</span>
             <div>
               <span class="time-counter" if="{event.active}">
@@ -20,9 +21,14 @@
   </div>
   <script>
     let self = this;
+
     this.show = function(e) {
       return (self.opts.active && e.active || !self.opts.active && !e.active) 
     } 
+
+    this.edit = function(e){ 
+      self.opts.edit(e)
+    }
 
     timer(event) {
       let seconds = (Date.now() - parseInt(event.clock_start) ) / 1000
@@ -37,8 +43,11 @@
       }
 
       if(hours > 1) { 
-
-        return `${parseInt(hours)}:${minutes % 60}:${realSeconds}`
+        final_minutes = minutes % 60
+        if(final_minutes > 0 && final_minutes < 9 ) {
+          final_minutes = "0" + final_minutes;
+        }
+        return `${parseInt(hours)}:${final_minutes}:${realSeconds}`
       } else {
         return `${minutes}:${realSeconds}`
       }

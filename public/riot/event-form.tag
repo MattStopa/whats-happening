@@ -7,7 +7,7 @@
           <div>
             <div class="label">Status</div>
             <div class="button {this.event.status == ''}  {this.event.status=='done' ? 'green-btn' : ''} " onclick={ toggleDone }  >          
-              <i class="fas fa-check"  if="{ eventDone(this.event)}"  style='margin-right: 10px'></i> 
+              <i class="fas fa-check mr-2"  if="{ eventDone(this.event)}"></i> 
 
               { this.event.status == 'done' ? 'Done' : 'Not Done' } 
             </div>
@@ -15,7 +15,7 @@
           <div>
             <div class="label">Time Taken</div>
             <div class="button {this.event.active == true ? 'green-btn' : ''} " onclick={ toggleActive }  >          
-              <i class="fas fa-check" if={this.event.active == true } style='margin-right: 10px'></i> 
+              <i class="fas fa-check mr-2" if={this.event.active == true }></i> 
 
               { this.event.active == true ? 'Stop' : 'Start' } 
             </div>
@@ -32,20 +32,16 @@
               <div onclick={ setTaskSize } data-size="9" class="{this.event.task_size == 9 ? 'selected' : ''}">Huge</div>
             </div>
           </div>
-          <div style="border-bottom: 2px solid #d8d8d8"></div>  
+          <div class="separator"></div>  
           <div>
             <div class="label">Title</div>
             <input type="text" name="title" onblur={ doneEdit } value={event.title}  autocomplete="off" >
           </div>
-          <!--  <div>
-            <div class="label">Tags</div>
-            <div class="tag-holder tag-input"></div>
-          </div>  -->
           <div>
             <div class="label">Date Finished</div>
             <input type="text" id="datepicker" name="date_finished" onblur={ doneEdit } value={event.date_finished}  autocomplete="off" >
           </div>
-          <div style="border-bottom: 2px solid #d8d8d8"></div>
+          <div class="separator"</div>
           <div>
             <div class="label">Hour Est.</div>
             <input type="text" name="estimate_hour" onblur={ doneEdit } value={event.estimate_hour}  autocomplete="off" >
@@ -53,7 +49,7 @@
             <div class="label">Minute Est.</div>
             <input type="text" name="estimate_minute" onblur={ doneEdit } value={event.estimate_minute}  autocomplete="off" >
           </div>
-          <div style="border-bottom: 2px solid #d8d8d8"></div>
+          <div class="separator"></div>
           <div>
             <div class="label">Hours taken</div>
             <input type="text" name="time_took_hour" onblur={ doneEdit } value={event.time_took_hour}  autocomplete="off" >
@@ -61,12 +57,12 @@
             <div class="label">Min. Taken</div>
             <input type="text" name="time_took_minute" onblur={ doneEdit } value={event.time_took_minute}  autocomplete="off" >
           </div>
-          <div style="border-bottom: 2px solid #d8d8d8"></div>  
+          <div class="separator"></div>  
           <div>
-            <div class="label" style='vertical-align: top'>Info</div>
+            <div class="label vertical-top" >Info</div>
             <div class="editor"></div>
           </div>
-          <div style="display: flex; justify-content: space-between">
+          <div class='submit-holder'>
             <button class="button" type="submit">
               { event._id ? 'Save' : 'Create' } 
             </button>

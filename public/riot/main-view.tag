@@ -1,27 +1,28 @@
 <main-view>
-    <div class="page-header">
-      <div class='logo'>
-        Task Master
+    <div class="page-header py-1">
+      <div class='logo ml-12 text-4xl tracking-wide'>
+        Task Man.
       </div>
     </div>
     <div>
-      <div class='main-box'>
-        <div style="flex: 1;">
+      <div class="flex bg-white main-box mx-8 p-3">
+        <div class="w-1/4">
           <stats-panel stats={taskStats}></stats-panel>
-          <bucket-selector  buckets={this.buckets} onSelected="{setBucket}"></bucket-selector>
+          <bucket-selector buckets={this.buckets} onSelected="{setBucket}"></bucket-selector>
         </div>
-        <div style="flex: 3">
-          <div >
-            <div class="add-button" onclick={createEvent}><i class="fas fa-plus-circle"></i>Add Event</div>
-            <div if={view == 'tasks'} style="display: inline-block">
-              <drop-select select={this.sortType} items={sorterOptions} on-selected="{sort}" button-text="Sort" button-icon="fa-list"></drop-select>
-              <multi-select select={this.sortType} items={filters} on-selected="{filter}" button-text="Filter" button-icon="fa-list"></multi-select>
+        <div class="w-3/4">
+          <div class="flex justify-between">
+            <div>
+              <button class="btn" onclick={createEvent}><i class="fas fa-plus-circle"></i>Add Event</button>
+              <div if={view == 'tasks'} class='inline-block'>
+                <drop-select select={this.sortType} items={sorterOptions} on-selected="{sort}" button-text="Sort" button-icon="fa-list"></drop-select>
+                <multi-select select={this.sortType} items={filters} on-selected="{filter}" button-text="Filter" button-icon="fa-list"></multi-select>
+              </div>
             </div>
-            <div style="float: right">
-              {view}
-              <div class="add-button" onclick={setView('tasks')}><i class="fas fa-list"></i>Tasks</div>
-              <div class="add-button" onclick={setView('logs')}><i class="fas fa-book-open"></i>Logs</div>
-              <div class="add-button" onclick={setView('charts')}><i class="fas fa-book-open"></i>Charts</div>
+            <div >
+              <button class="btn" onclick={setView('tasks')}><i class="fas fa-list"></i>Tasks</button>
+              <button class="btn" onclick={setView('logs')}><i class="fas fa-book-open"></i>Logs</button>
+              <button class="btn" onclick={setView('charts')}><i class="fas fa-book-open"></i>Charts</button>
             </div>
           </div>
           <view-switcher view={view} show-editor={showEditor} bucket={selectedBucket}></view-switcher>

@@ -1,5 +1,5 @@
 <drop-select>
-  <div class="add-button sort-button">
+  <div class="btn sort-button">
     <i class="fas {opts.buttonIcon}" if={opts.buttonIcon}></i>
     {opts.buttonText}
     <div class='options'>

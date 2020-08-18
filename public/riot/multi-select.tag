@@ -1,5 +1,5 @@
 <multi-select>
-  <div class="add-button filter-button">
+  <div class="btn filter-button">
     <i class="fas {opts.buttonIcon}" if={opts.buttonIcon}></i>
     {opts.buttonText}
 

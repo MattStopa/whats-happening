@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html> 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+  <title>CodePen - Custom CSS Variables Theming UI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.0.4/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- the polyfill: -->
+  <script src="https://rawcdn.githack.com/nuxodin/ie11CustomProperties/b851ec2b6b8e336a78857b570d9c12a8526c9a91/ie11CustomProperties.js"></script>
+  <style>
+    body { 
+    font-family: 'Rubik', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-smoothing: antialiased;
+    }
+  </style>
+ 
+</head>
+<body class="transition-all">
+  <div class=" bg-gray-200 px-2 py-2 m-5 shadow-lg rounded">
+    <div class="w-1/3 bg-white px-4 py-4">
+      <div>Weekly Sales</div>
+      <div class="">
+        <div>$120</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class=" bg-gray-200 pt-10 py-0 m-5 shadow-lg rounded">
+    <div class="text-center text-3xl font-bold">Wordpress Themes</div>
+    <div class="text-center text-gray-600">Thousands of Wordpress Themes</div>    
+    <div class="text-center">
+      <div class="text-center bg-blue-500  h-20 w-20 mx-auto items-center flex rounded-full inline  mt-8 z-50">
+        <i class="far fa-clock text-6xl mx-auto inline-block text-white"></i>
+      </div>
+      <div >
+        <img class="m-0 mx-auto mt-3 z-0 w-3/4 border-solid border-4 border-gray-500" src="https://assets.shopfront.envato-static.com/images/home-page/new-design/themeforest/category-tiles-wordpress.png">
+      </div>
+    </div>
+  </div>
+    
+  <div class=" bg-gray-300 px-3 py-3 m-5 shadow-lg rounded">
+    <input placeholder="Search the docs (press '/' to focus)" class="shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700  leading-tight focus:outline-none focus:shadow-outline">
+    <div class="mt-3 mb-4 text-green-700">Recent</div>
+    <div class="flex justify-between bg-white px-2 py-1 rounded mb-1  hover:bg-green-400 hover:text-white  cursor-pointer">
+      <div class="flex">
+        <div class='mr-5 pt-3 pl-2'>
+          <i class="far fa-clock text-2xl text-gray-500 hover:text-white"></i>
+        </div>
+        <div>
+          <div>Inline Block</div>
+          <div class="text-sm text-gray-600">Display</div>
+        </div>
+      </div>
+      <div>
+
+        <i class="far fa-star  mt-3 mr-3"></i>
+      </div>
+    </div>
+    <div class="flex justify-between bg-white px-2 py-1 rounded mb-1  hover:bg-green-400 hover:text-white  cursor-pointer">
+      <div class="flex">
+        <div class='mr-5 pt-3 pl-2'>
+          <i class="far fa-clock text-2xl text-gray-500 hover:text-white"></i>
+        </div>
+        <div>
+          <div>Inline Block</div>
+          <div class="text-sm text-gray-600">Display</div>
+        </div>
+      </div>
+      <div>
+
+        <i class="far fa-star  mt-3 mr-3"></i>
+      </div>
+    </div>
+    <div class="flex justify-between bg-white px-2 py-1 rounded mb-1  hover:bg-green-400 hover:text-white  cursor-pointer">
+      <div class="flex">
+        <div class='mr-5 pt-3 pl-2'>
+          <i class="far fa-clock text-2xl text-gray-500 hover:text-white"></i>
+        </div>
+        <div>
+          <div>Inline Block</div>
+          <div class="text-sm text-gray-600">Display</div>
+        </div>
+      </div>
+      <div>
+
+        <i class="far fa-star  mt-3 mr-3"></i>
+      </div>
+    </div>
+  </div>
+  
+  <div class="flex bg-gray-100 px-8 py-4 m-5 shadow-lg text-center">
+    <div class="w-1/4 mr-2 bg-red-500 text-white text-sm p-3 rounded hover:bg-red-600 cursor-pointer">One idea</div>
+    <div class="w-1/4 mr-2 bg-red-500 text-white text-sm p-3 rounded hover:bg-red-600 cursor-pointer">One idea</div>
+    <div class="w-1/4 mr-2 bg-red-500 text-white text-sm p-3 rounded hover:bg-red-600 cursor-pointer">One idea</div>
+    <div class="w-1/4 bg-red-500 text-white text-sm p-3 rounded hover:bg-red-600 cursor-pointer">One idea</div>
+  </div>
+ 
+  <div class="bg-gray-100 px-8 py-4 m-5 shadow-lg">
+    <button class="bg-blue-300 px-4 py-1 text-white rounded">Purchase</button>
+     <h2 class="text-2xl font-bold mt-4 text-orange-500">Purchase Today</h2>
+    <div class="mt-2 text-gray-500">Lots of great text here. I love it so much. Tailwind CSS is fantastic.</div>
+  </div>
+  
+  <div class="bg-gray-100 px-8 py-4 m-5 shadow-lg ">
+    <table class="border-collapse border-2 border-gray-500">
+      <tr>
+        <th class="border border-gray-400 px-4 py-2 text-gray-800">Name </th>
+        <th class="border border-gray-400 px-4 py-2 text-gray-800">Greeting</th>
+      </tr>
+      <tr>
+        <td  class="border border-gray-400 px-4 py-2 text-gray-800">Hey</td>
+        <td class="border border-gray-400 px-4 py-2 text-gray-800">Hi!</td>
+      </tr>
+    </table>
+  </div>
+  
+  <div class="bg-gray-100 px-8 py-4 m-5 shadow-lg">
+    <h2 class="text-xl pb-5">Enter Your Info</h2>
+    
+    <label class="font-light text-gray-600">First Name</lable>
+    <input class="shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+
+    <label class="font-light text-gray-600">Last Name</lable>
+    <input class="shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+
+    <label class="font-light text-gray-600">Email</lable>
+    <input class="shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+
+    <label class="font-light text-gray-600">Comments</lable>
+    <textarea class="shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+   
+  </div>
