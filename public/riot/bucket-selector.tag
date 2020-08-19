@@ -21,6 +21,7 @@
   <script>
     let self = this
     let showBucket = false;
+    
     setBucket = function(e) {
       self.opts.onselected(e)
     }

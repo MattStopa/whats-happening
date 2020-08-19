@@ -45,6 +45,8 @@
       partial: true
     }
 
+    new BucketService().allBuckets()
+
     this.sorterOptions = {
       "updated_at:desc": "Modified - Newest",
       "updated_at:asc": "Modified - Oldest",

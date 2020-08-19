@@ -1,10 +1,10 @@
 <event-list-details>
     <div each="{event, index in opts.events}" > 
       <div class="box shadow1 {event.active ? 'active' : ''} {event.status == 'done' ? 'done' : ''} {  event.status != 'done' && 
-      (event.time_took_hour > 0 || event.time_took_minute > 0 ) && !event.active ? 'some'  : ''}     " if={show(event)}>
+      (event.timeTookHour > 0 || event.timeTookMinute > 0 ) && !event.active ? 'some'  : ''}     " if={show(event)}>
         <div class='title title-header'  >
           <div class='number {event.color}'>
-            {event.task_number}
+            {event.taskNumber}
           </div>
           <div class="list-item">
             <span class='title'>{event.title}</span>
@@ -31,7 +31,7 @@
     }
 
     timer(event) {
-      let seconds = (Date.now() - parseInt(event.clock_start) ) / 1000
+      let seconds = (Date.now() - parseInt(event.clockStart) ) / 1000
       let minutes = parseInt(seconds / 60)
       let realSeconds = parseInt(seconds % 60)
 

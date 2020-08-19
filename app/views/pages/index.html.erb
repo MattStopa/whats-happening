@@ -150,6 +150,23 @@
     <script type="riot/tag" src="riot/multi-select.tag"></script>   
     <script type="riot/tag" src="riot/view-switcher.tag"></script>    
     <script>riot.mount('main-view'); // or riot.mount('*'); to load all tags.</script>
+
+    <script>
+    	graphQl = function(query, cb) {
+            fetch('graphql', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query: query })
+            }).then(function(response) {
+                return response.json()
+            }).then(function(data){ 
+                    cb(data)
+            })
+        }
+
+    </script>
 </body>
 
 </html>  

@@ -13,7 +13,6 @@ class EventsController < ApplicationController
         statuses.push(nil) if params[:fil_open] == "true"
 
         data = data.in(status: statuses)
-        Rails.logger.error(data.inspect)
 
         if params[:byDate]
             data = Bucket.find(params[:id]).events.where(status: :'done').order_by(date_finished: :desc)

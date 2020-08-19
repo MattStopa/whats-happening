@@ -27,8 +27,6 @@ class Event
     field :clock_start, type: String
     field :minutes_taken, type: Integer
 
-
-
     def increase_bucket_count
       unless self.task_number
         self.task_number = self.bucket.increase_bucket_count

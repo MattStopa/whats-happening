@@ -7,7 +7,7 @@
       </div> 
       <div each="{event in groupBy[key]}" class="entry">
         <div class='title'>{event.title}</div>
-        <div class='time-taken-mini'>  +{timer(event.time_took_hour * 60 + event.time_took_minute)}</div>
+        <div class='time-taken-mini'>  +{timer(event.timeTookHour * 60 + event.timeTookMinute)}</div>
       </div>
     </div>
   </div>
@@ -20,6 +20,7 @@
     this.groupBy = {};
 
     timer(min) {
+      console.log(min)
       let minutes = min
       let hours = minutes / 60
 
@@ -39,7 +40,7 @@
     totalTimeTaken(items) {
       let minutes = 0;
       items.forEach(function(event){ 
-        minutes = minutes + event.time_took_minute + (event.time_took_hour * 60)
+        minutes = minutes + event.timeTookMinute + (event.timeTookHour * 60)
       })
       return minutes
     }
@@ -72,9 +73,9 @@
 
     minutesData(event) { 
       data = {}
-      data.minutesTaken = (event.time_took_hour * 60) + event.time_took_minute 
-      data.minutesEst =  (event.estimate_hour * 60) + event.estimate_minute 
-      data.percentageUsed =  ((event.time_took_hour * 60) + event.time_took_minute) / ((event.estimate_hour * 60) + event.estimate_minute)
+      data.minutesTaken = (event.timeTookHour * 60) + event.timeTookMinute 
+      data.minutesEst =  (event.estimateHour * 60) + event.estimateMinute 
+      data.percentageUsed =  ((event.timeTookHour * 60) + event.timeTookMinute) / ((event.estimateHour * 60) + event.estimateMinute)
       data.percentageUsed = 100 - parseInt((100 * data.percentageUsed) )
       return data
     }

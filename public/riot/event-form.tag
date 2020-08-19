@@ -25,11 +25,11 @@
           <div>
             <div class="label">Points</div>
             <div class="multi-select">
-              <div onclick={ setTaskSize } data-size="1" class="{this.event.task_size == 1 ? 'selected' : ''}" >Tiny</div>
-              <div onclick={ setTaskSize } data-size="3" class="{this.event.task_size == 3 ? 'selected' : ''}">Small</div>
-              <div onclick={ setTaskSize } data-size="5" class="{this.event.task_size == 5 ? 'selected' : ''}">Medium</div>
-              <div onclick={ setTaskSize } data-size="7" class="{this.event.task_size == 7 ? 'selected' : ''}">Large</div>
-              <div onclick={ setTaskSize } data-size="9" class="{this.event.task_size == 9 ? 'selected' : ''}">Huge</div>
+              <div onclick={ setTaskSize } data-size="1" class="{this.event.taskSize == 1 ? 'selected' : ''}" >Tiny</div>
+              <div onclick={ setTaskSize } data-size="3" class="{this.event.taskSize == 3 ? 'selected' : ''}">Small</div>
+              <div onclick={ setTaskSize } data-size="5" class="{this.event.taskSize == 5 ? 'selected' : ''}">Medium</div>
+              <div onclick={ setTaskSize } data-size="7" class="{this.event.taskSize == 7 ? 'selected' : ''}">Large</div>
+              <div onclick={ setTaskSize } data-size="9" class="{this.event.taskSize == 9 ? 'selected' : ''}">Huge</div>
             </div>
           </div>
           <div class="separator"></div>  
@@ -39,23 +39,23 @@
           </div>
           <div>
             <div class="label">Date Finished</div>
-            <input type="text" id="datepicker" name="date_finished" onblur={ doneEdit } value={event.date_finished}  autocomplete="off" >
+            <input type="text" id="datepicker" name="date_finished" onblur={ doneEdit } value={event.dateFinished}  autocomplete="off" >
           </div>
           <div class="separator"</div>
           <div>
             <div class="label">Hour Est.</div>
-            <input type="text" name="estimate_hour" onblur={ doneEdit } value={event.estimate_hour}  autocomplete="off" >
+            <input type="text" name="estimateHour" onblur={ doneEdit } value={event.estimateHour}  autocomplete="off" >
 
             <div class="label">Minute Est.</div>
-            <input type="text" name="estimate_minute" onblur={ doneEdit } value={event.estimate_minute}  autocomplete="off" >
+            <input type="text" name="estimateMinute" onblur={ doneEdit } value={event.estimateMinute}  autocomplete="off" >
           </div>
           <div class="separator"></div>
           <div>
             <div class="label">Hours taken</div>
-            <input type="text" name="time_took_hour" onblur={ doneEdit } value={event.time_took_hour}  autocomplete="off" >
+            <input type="text" name="timeTookHour" onblur={ doneEdit } value={event.timeTookHour}  autocomplete="off" >
 
             <div class="label">Min. Taken</div>
-            <input type="text" name="time_took_minute" onblur={ doneEdit } value={event.time_took_minute}  autocomplete="off" >
+            <input type="text" name="timeTookMinute" onblur={ doneEdit } value={event.timeTookMinute}  autocomplete="off" >
           </div>
           <div class="separator"></div>  
           <div>
@@ -94,20 +94,21 @@
 
  
       // Set picker date time if it exists already
-      if(self.event.date_finished) {
+      if(self.event.dateFinished) {
         window.picker = self.picker
 
         // This timeout below MUST occur AFTER the update() timeout listed below. Otherwise the update
         // occurs and the timer can't set the object. It's strange, idk why, but it's important. 
         setTimeout(function() { 
-          self.picker.setDate(self.event.date_finished)
+          self.picker.setDate(self.event.dateFinished)
         }, 20)
 
       }
 
       // Set quill contents
       setTimeout(function() { 
-          self.quill.setContents(self.event.json_description)
+        console.log("JSON description", self.event.jsonDescription)
+          self.quill.setContents(JSON.parse(self.event.jsonDescription))
 
       }, 10)
       setTimeout(function() { 
@@ -116,14 +117,13 @@
     })
 
     xObserve.listen('createNewEvent', 'event-form', function(event) { 
-      console.log("---------")
       self.event = {};
       self.update()
     })
 
     setTaskSize(event) { 
       size = event.target.getAttribute('data-size')
-      this.event.task_size = size
+      this.event.taskSize = size
       self.update()
     }
 
@@ -154,9 +154,9 @@
 
       // 2 & 237
       let value =  parseInt(e.target.value)
-      if(e.target.name == 'time_took_minute' && value > 60) {
-        self.event.time_took_hour = parseInt((parseInt(value) / 60) + self.event.time_took_hour )
-        self.event.time_took_minute = parseInt(value % 60)
+      if(e.target.name == 'timeTookMinute' && value > 60) {
+        self.event.timeTookHour = parseInt((parseInt(value) / 60) + self.event.timeTookHour )
+        self.event.timeTookHinute = parseInt(value % 60)
         self.update()
         this.setDirty()
       }
@@ -166,11 +166,11 @@
     toggleActive()  {
       this.event.active = !this.event.active;
       if(this.event.active) {
-        this.event.clock_start = Date.now()
+        this.event.clockStart = Date.now()
       } else {
-        let milli = Date.now() - this.event.clock_start
+        let milli = Date.now() - this.event.clockStart
         let mins = parseInt(milli / 60000) || 1
-        this.event.time_took_minute = parseInt(this.event.time_took_minute || '0') + mins 
+        this.event.timeTookMinute = parseInt(this.event.timeTookMinute || '0') + mins 
       }
       this.submitMe()
     }
@@ -270,7 +270,7 @@
       this.quill = new Quill('.editor', options); 
 
       this.quill.on('text-change', function(delta, oldDelta, source) {
-        self.event.json_description = self.quill.getContents();
+        self.event.jsonDescription = self.quill.getContents();
         self.event.description = self.quill.getText();
       });
 

@@ -43,9 +43,9 @@
 
     minutesData(event) { 
       data = {}
-      data.minutesTaken = (event.time_took_hour * 60) + event.time_took_minute 
-      data.minutesEst =  (event.estimate_hour * 60) + event.estimate_minute 
-      data.percentageUsed =  ((event.time_took_hour * 60) + event.time_took_minute) / ((event.estimate_hour * 60) + event.estimate_minute)
+      data.minutesTaken = (event.timeTookHour * 60) + event.timeTookMinute 
+      data.minutesEst =  (event.estimateHour * 60) + event.estimateMinute 
+      data.percentageUsed =  ((event.timeTookHour * 60) + event.timeTookMinute) / ((event.estimateHour * 60) + event.estimateMinute)
       data.percentageUsed = 100 - parseInt((100 * data.percentageUsed) )
       return data
     }
