@@ -8,6 +8,7 @@ class GraphqlController < ApplicationController
   def execute
     variables = prepare_variables(params[:variables])
     query = params[:query]
+
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:

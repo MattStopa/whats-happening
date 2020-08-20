@@ -41,6 +41,7 @@ function BucketService() {
         }
       }
     `
+
     graphQl(query, cb)
   }
 

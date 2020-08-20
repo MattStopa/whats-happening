@@ -50,6 +50,52 @@ function EventService() {
             })
         }
 
+        this.createEvent = function(data, cb) { 
+            let idQuery = data.id ? `id:"${data.id}",`: ''
+
+            fields = ["title", "taskSize", "status", "description", "dateFinished", 
+                        "estimateHour", "estimateMinute", "timeTookHour", 
+                        "timeTookMinute", "active", "clockStart", "minutesTaken"]
+
+                        
+
+            strings = ''
+            fields.forEach( (item) => { 
+                if(data[item]) {
+                    if(typeof data[item] === 'string') {
+                        strings += `${item}: "${data[item]}",
+                        `
+                    } else {
+                        strings += `${item}: ${data[item]},
+                        `
+                    }
+                    
+                }
+            } )
+
+            if(data['jsonDescription']) {
+               strings += `jsonDescription: "${encodeURIComponent(JSON.stringify(data.jsonDescription))}",
+               `
+            }
+
+            let query = `
+              mutation {
+                createEvent(
+                  input:{
+                    ${idQuery}
+                    userID:"${me.id}",
+                    ${strings}
+                  }   
+                ) {
+                  title
+                  id
+                }
+              }
+            `
+            console.log(query)
+            graphQl(query, cb)
+          }
+
 
         // this.forBucketByDate = function(id, cb) { 
         //     fetch(`/events/buckets/${id}.json?byDate=true`)

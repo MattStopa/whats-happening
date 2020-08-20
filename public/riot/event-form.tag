@@ -117,8 +117,7 @@
 
       // Set quill contents
       setTimeout(function() { 
-        console.log("JSON description", self.event.jsonDescription)
-          self.quill.setContents(JSON.parse(self.event.jsonDescription))
+         self.quill.setContents(JSON.parse(self.event.jsonDescription))
 
       }, 10)
       setTimeout(function() { 
@@ -286,8 +285,19 @@
 
     })
 
+
+    submitMe(e) { 
+      if(e) { 
+        e.preventDefault()
+      }
+
+      new EventService().createEvent(self.event, function(data){ 
+          console.log("DONE", data)
+      })
+    }
+
     
-    submitMe(e) {
+    SXXXsubmitMe1(e) {
       if(e) { 
         e.preventDefault()
       }
