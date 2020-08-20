@@ -118,7 +118,7 @@
 
     <%= javascript_include_tag 'application' %> 
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Coiny" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel='stylesheet' >
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
     <link rel="stylesheet" type="text/css" href="tagify.css">
@@ -165,6 +165,22 @@
                     cb(data)
             })
         }
+
+        window.me = null;
+        getMe = function() { 
+            let query = `
+            query {
+                    me {
+                    id
+                    name
+                }
+            }
+            `
+            graphQl(query, function(json) { 
+                window.me = json.data.me
+            })
+        }
+        getMe()
 
     </script>
 </body>

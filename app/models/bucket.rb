@@ -4,6 +4,7 @@ class Bucket
 
   field :name, type: String
   field :count, type: Integer, default: 1
+  field :status, type: String
 
   def increase_bucket_count
     self.count = self.count || 0

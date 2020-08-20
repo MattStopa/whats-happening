@@ -12,9 +12,16 @@ function EventService() {
 
         // sort=${data.sortKey}&direction=${data.direction}&fil_closed=${data.filters.finished}&fil_open=${data.filters.open}&fil_partial=${data.filters.partial
         this.forBucketSorted = function(id, data, cb) { 
+            let str = ''
+            if(data.byDate) {
+                str = `byDate: "${data.byDate}"`
+            } else { 
+                str = `sort: "${data.sortKey}", direction: "${data.direction}", filClosed: "${data.filters.finished}", filOpen: "${data.filters.open}"`
+            }
+
             let query = `
                 query {
-                    event(id: "${id}", sort: "${data.sortKey}", direction: "${data.direction}", filClosed: "${data.filters.finished}", filOpen: "${data.filters.open}") {
+                    event(id: "${id}", ${str}) {
                         id
                         taskNumber
                         color
@@ -43,16 +50,17 @@ function EventService() {
             })
         }
 
-        this.forBucketByDate = function(id, cb) { 
-            fetch(`/events/buckets/${id}.json?byDate=true`)
-                .then(function(response) {
-                    return response.json()
-                }).then(function(json) {
-                    cb(json)
-                }).catch(function(ex) {
-                    console.log('parsing failed', ex)
-                })
-        }
+
+        // this.forBucketByDate = function(id, cb) { 
+        //     fetch(`/events/buckets/${id}.json?byDate=true`)
+        //         .then(function(response) {
+        //             return response.json()
+        //         }).then(function(json) {
+        //             cb(json)
+        //         }).catch(function(ex) {
+        //             console.log('parsing failed', ex)
+        //         })
+        // }
 
         this.byTag = function(tag, cb) { 
             fetch('/events/by_tag.json?tag='+tag)

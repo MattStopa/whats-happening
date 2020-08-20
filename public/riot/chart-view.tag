@@ -65,15 +65,15 @@
     })
 
     redrawCharts() { 
-      new EventService().generateChart(this.bucket._id.$oid, 30, 'bar', function(json) {
+      new EventService().generateChart(this.bucket.id, 30, 'bar', function(json) {
         self.drawChart(json, 'bar', 'barChart')
       })
 
-      new EventService().generateChart(this.bucket._id.$oid, 30, 'burn', function(json) {
+      new EventService().generateChart(this.bucket.id, 30, 'burn', function(json) {
         self.drawChart(json, 'line', 'burnDown')
       })
 
-      new EventService().generateChart(this.bucket._id.$oid, 30, 'build', function(json) {
+      new EventService().generateChart(this.bucket.id, 30, 'build', function(json) {
         self.drawChart(json, 'line', 'buildUp')
       })
     }

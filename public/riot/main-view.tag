@@ -45,8 +45,6 @@
       partial: true
     }
 
-    new BucketService().allBuckets()
-
     this.sorterOptions = {
       "updated_at:desc": "Modified - Newest",
       "updated_at:asc": "Modified - Oldest",
@@ -90,7 +88,8 @@
       let values = { 
         sortKey: data[0], 
         direction: data[1],
-        filters: self.filters
+        filters: self.filters,
+        byDate: false
       }
       localStorage.setItem("filterAndSort", JSON.stringify(values))
       return values;
@@ -128,6 +127,14 @@
     xObserve.listen('editSelected', 'main-view', function(event) { 
       self.showEditor = true
       self.update()
+    })
+
+    xObserve.listen('bucketsChanged', 'main-view', function() { 
+      new BucketService().index(function(json) { 
+        self.buckets = json
+        self.selectedBucket = json[0] 
+        self.update()
+      })
     })
 
     createEvent() { 

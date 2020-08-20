@@ -48,14 +48,15 @@
     this.on('update', function() {
       if(!this.bucket || (this.opts.bucket && this.bucket.name != this.opts.bucket.name)) {
         this.bucket = this.opts.bucket
-        new EventService().forBucketByDate(this.bucket._id.$oid, function(json) { 
+        new EventService().forBucketSorted(this.bucket.id, { byDate: true}, function(json) { 
           xObserve.trigger('bucketResults', json)
+          console.log(json)
 
           let groupBy = {}
           groupBy['Totals'] = []
           json.forEach(function(item) { 
-            if(item.date_finished) {
-              let key = item.date_finished.split("T")[0]
+            if(item.dateFinished) {
+              let key = item.dateFinished.split("T")[0]
               groupBy[key] = groupBy[key] || []
               groupBy[key].push(item)
               groupBy['Totals'].push(item)
@@ -63,6 +64,8 @@
           })
 
           self.groupBy = groupBy
+
+          console.log(groupBy)
 
           self.events = json
           self.update()

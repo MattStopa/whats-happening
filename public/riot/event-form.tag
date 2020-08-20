@@ -1,8 +1,16 @@
 <event-form>
-  {opts.showEditor}
-  <div class='event-form {opts.showEditor ? "visible" : ""}'> 
-    <div class="box shadow1">
-      <h2 class="header">Event Details <i class="fas fa-times right pointer" onclick={closeEditor}></i></h2>
+
+  <div class="event-form border-2 border-grey-400 {opts.showEditor ? 'visible' : ''}" > 
+  <div class=" bg-gray-100  shadow-lg rounded-sm text-sm text-black">
+    <div class="flex font-medium justify-between border-b-2 border-gray-200">
+      <div class="px-4 py-4 ">Add Task</div>
+      <div class="flex">
+        <i class="py-4 far fa-clock  mr-5 text-xl text-pink-600"></i>
+        <div class="py-4 p-4 mr-6 font-thin cursor-pointer border-b-2 border-purple-500">Live Stats</div>
+        <div class="py-4 pr-4 font-thin cursor-pointer"><i class="fas fa-times right pointer" onclick={closeEditor}></i></div>
+      </div>
+    </div>
+    <div class="font-medium justify-between border-b-2 border-gray-200 p-4 bg-white">
       <form onsubmit={submitMe} class="form-holder ">
           <div>
             <div class="label">Status</div>
@@ -71,8 +79,10 @@
             </div>
           </div>
       </form>
-    </div>
-  </div>
+    </div>    
+  </div> 
+
+
 </div>
  
   <script>
@@ -190,7 +200,7 @@
     deleteTask(e) { 
       let msg = "Are you sure you want to delete this task? If you do it will be put in your deleted bucket. You can then restore it if needed in the next 30 days"
       if(confirm(msg)) {
-        fetch('/events/' + self.event._id['$oid'], {
+        fetch('/events/' + self.event.id, {
           method: 'delete',
           headers: {
             'Content-Type': 'application/json'

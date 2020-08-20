@@ -32,7 +32,7 @@
       if(!this.bucket || (this.opts.bucket && this.bucket.name != this.opts.bucket.name)) {
         this.bucket = this.opts.bucket
         let data = JSON.parse(localStorage.getItem("filterAndSort"))
-        new EventService().forBucketSorted(this.bucket._id.$oid, data, function(json) { 
+        new EventService().forBucketSorted(this.bucket.id, data, function(json) { 
           xObserve.trigger('bucketResults', json)
           self.events = json
           self.rerender()
@@ -78,14 +78,14 @@
 
     xObserve.listen('editorClosed', 'event-list', function(event) { 
       let data = JSON.parse(localStorage.getItem("filterAndSort"))
-      new EventService().forBucketSorted(self.bucket._id.$oid, data, function(json) { 
+      new EventService().forBucketSorted(self.bucket.id, data, function(json) { 
         self.events = json
         self.rerender()
       }) 
     })
 
     xObserve.listen('sort', 'event-list', function(data) { 
-       new EventService().forBucketSorted(self.bucket._id.$oid, data, function(json) { 
+       new EventService().forBucketSorted(self.id, data, function(json) { 
           xObserve.trigger('bucketResults', json)
           self.events = json
           self.rerender()

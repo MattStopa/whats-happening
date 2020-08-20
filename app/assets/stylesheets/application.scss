@@ -62,7 +62,6 @@
 
   .bucket-panel { 
     width: 95%;
-    height: 400px;
     background: #ea7e54;
     float: right;
     color: #fff;
@@ -99,7 +98,7 @@
     }
 
     .title {
-      font-weight: 800;
+      font-weight: 600;
     }
 
     .label {
@@ -107,11 +106,7 @@
       display: inline-block;
     }
 
-    .form-holder {
-      width: 570px;
-      padding: 21px;
-    }
-
+   
     .form-holder div {
       margin-bottom: 10px;
     }
@@ -337,7 +332,7 @@
     }
 
     .title {
-      font-weight: 800;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       justify-content: space-between;

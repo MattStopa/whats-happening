@@ -25,6 +25,11 @@ aikitask
 grantwit
 grantania
 
+# Graph QL Ruby Example app
+https://github.com/howtographql/graphql-ruby/blob/master/app/graphql/mutations/create_user.rb
+
+#Design ideas
+https://webframe.xyz/categories/dashboard
 
 Documentation for RIOT
 https://v3.riotjs.now.sh/guide/
