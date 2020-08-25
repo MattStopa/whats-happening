@@ -41,6 +41,8 @@ function EventService() {
                     }
                 }
             `
+
+            console.log(query)
             graphQl(query, function(results) { 
                 if(results.data) { 
                     cb(results.data.event)

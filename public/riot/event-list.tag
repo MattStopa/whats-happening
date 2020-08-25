@@ -85,7 +85,7 @@
     })
 
     xObserve.listen('sort', 'event-list', function(data) { 
-       new EventService().forBucketSorted(self.id, data, function(json) { 
+       new EventService().forBucketSorted(self.bucket.id, data, function(json) { 
           xObserve.trigger('bucketResults', json)
           self.events = json
           self.rerender()

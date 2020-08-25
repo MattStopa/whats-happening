@@ -45,3 +45,5 @@ Idea
 
 
 http://demo.interface.club/limitless/demo/Template/layout_5/LTR/default/full/index.html (good ideas for charts I could use)
+
+# Booting in windows with docker. The entrypoint.sh file MUST be in CRLF not LF for it to boot. But it boots.
