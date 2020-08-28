@@ -21,6 +21,7 @@ gem 'riotjs-rails'
 gem 'bson'
 gem 'mongoid'
 gem 'graphql'
+gem 'rack-cors'
 
 
 
