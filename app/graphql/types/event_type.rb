@@ -22,6 +22,8 @@ module Types
     field :clock_start, String, null: true
     field :minutes_taken, Integer, null: true
 
+    field :created_at, String, null: true
+
     def json_description
       object.json_description.to_json
     end

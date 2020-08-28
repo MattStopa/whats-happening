@@ -9,7 +9,7 @@ class EventsController < ApplicationController
 
         statuses = []
         statuses.push('done') if params[:fil_closed] == "true"
-        statuses.push('not done') if params[:fil_open] == "true"
+        statuses.push('open') if params[:fil_open] == "true"
         statuses.push(nil) if params[:fil_open] == "true"
 
         data = data.in(status: statuses)

@@ -11,7 +11,7 @@ module Types
 
     # bucket(id: "${id}", sort: "${data.sortKey}", direction: "${data.direction}", filClosed: "${data.filters.finished}", filOpen: "${data.filters.open}") {
 
-    field :event, [Types::EventType], null: false do
+    field :events, [Types::EventType], null: false do
       argument :id, ID, {required: false}
       argument :sort, String, {required: false}
       argument :direction, String, {required: false}
@@ -19,6 +19,12 @@ module Types
       argument :filOpen, String, {required: false}
       argument :byDate, String, {required: false}
       description "These are the users buckets"
+    end
+
+    field :event, Types::EventType, null: false do
+      argument :id, ID, {required: false}
+   
+      description "1 user event"
     end
 
     field :bucket, [Types::BucketType], null: false do
@@ -29,6 +35,10 @@ module Types
       description "The current user"
     end
 
+    def event(params)
+      Event.find(params[:id])
+    end
+
     def me
       User.first
     end
@@ -37,7 +47,7 @@ module Types
       Bucket.where(:status.ne => "deleted")
     end
 
-    def event(params)
+    def events(params)
       if(params[:id]) 
         data = Bucket.find(params[:id]).events
 
@@ -49,14 +59,12 @@ module Types
         data = data.in(status: statuses)
   
         if params[:byDate] == "true"
-            data = Bucket.find(params[:id]).events.where(status: :'done').order_by(date_finished: :desc)
+            data = Bucket.find(params[:id]).events.order_by(date_finished: :desc)
         elsif params[:sort] 
             data = data.order_by(params[:sort] => params[:direction])
         else
             data
         end
-        
-
         data.all
       end
     end
