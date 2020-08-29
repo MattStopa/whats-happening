@@ -31,7 +31,6 @@ module Mutations
       event = Event.find(args[:id])
       event.update(a)
       event.save
-      raise Event.find(args[:id]).inspect
 
       event
       # if(args[:id])

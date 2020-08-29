@@ -24,6 +24,7 @@ akazitask
 aikitask
 grantwit
 grantania
+GrantChampion
 
 # Graph QL Ruby Example app
 https://github.com/howtographql/graphql-ruby/blob/master/app/graphql/mutations/create_user.rb
