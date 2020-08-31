@@ -6,6 +6,7 @@ class Event
     before_save :assign_color
 
     belongs_to :bucket
+    belongs_to :sprint_period
 
     field :task_number, type: Integer
     field :color, type: String
@@ -26,6 +27,8 @@ class Event
     field :active, type: Boolean
     field :clock_start, type: String
     field :minutes_taken, type: Integer
+
+    field :scrum_period_start, type: Date
 
     def increase_bucket_count
       unless self.task_number

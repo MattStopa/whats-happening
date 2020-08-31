@@ -20,14 +20,10 @@ module Mutations
     argument :clock_start, String, required: false
     argument :minutes_taken, Integer, required: false
 
-
-
-
     def resolve(args)
       a = args.except(:userID)
       a[:json_description] = JSON.parse(URI.decode(args[:json_description]))
 
-      Rails.logger.error(a[:json_description])
       event = Event.find(args[:id])
       event.update(a)
       event.save

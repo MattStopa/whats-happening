@@ -6,5 +6,7 @@ module Types
     field :delete_bucket, mutation: Mutations::DeleteBucket
 
     field :create_event, mutation: Mutations::CreateEvent
+    field :save_task_to_sprint, mutation: Mutations::SaveTaskToSprint
+
   end
 end
